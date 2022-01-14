@@ -6,10 +6,11 @@ const knex = require("../db/connection");
  */
 
 // creates a table that includes reservations for a specific data
-function listReservationsByData(date) {
+function listReservationsByDate(reservation_date) {
     return knex("reservations as r")
-        .select("t.*")
-        .where({ "r.reservation_date": date });
+        .select("*")
+        .where({ reservation_date })
+        .orderBy("r.reservation_time");
 }
 
 
@@ -17,12 +18,24 @@ function listReservationsByData(date) {
  * #################  Table Builder for Standard Routes  #################
  */
 
+// creates a table containing all reservations
 function list() {
-    return knex("reservations").select("*");
+    return knex("reservations as r")
+    .select("*")
+    .orderBy("r.reservation_date");
+}
+
+// creates a new row in the reservations table
+function create(reservation) {
+    return knex("reservations")
+        .insert(reservation)
+        .returning("*")
+        .then((createdReservations) => createdReservations[0]);
 }
 
 
 module.exports = {
     list,
-    listReservationsByData,
+    listReservationsByDate,
+    create,
 }
