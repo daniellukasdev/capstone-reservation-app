@@ -2,6 +2,7 @@ const reservationsService = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 const isValidDate = require("../errors/isValidDate");
+const isValidTime = require("../errors/isValidTime");
 
 const hasRequiredProperties = hasProperties(
   "first_name", 
@@ -44,5 +45,5 @@ async function create(req, res) {
 
 module.exports = {
   list: [asyncErrorBoundary(list)],
-  create: [asyncErrorBoundary(hasRequiredProperties), isValidDate, asyncErrorBoundary(create)],
+  create: [asyncErrorBoundary(hasRequiredProperties), isValidDate, isValidTime, asyncErrorBoundary(create)],
 };
