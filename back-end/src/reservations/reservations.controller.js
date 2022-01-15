@@ -80,7 +80,7 @@ async function list(req, res) {
 
 async function create(req, res) {
   const data = await reservationsService.create(req.body.data);
-  res.json(201).json({ data });
+  res.status(201).json({ data });
 }
 
 module.exports = {
