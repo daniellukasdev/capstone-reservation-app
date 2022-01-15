@@ -1,5 +1,5 @@
 // checks if the date request is formatted correctly
-function isDate(req, res, next) {
+function isValidDate(req, res, next) {
     const { data: { reservation_date } } = req.body;
     const dateFormat = /\d\d\d\d-\d\d-\d\d/;
     if (!reservation_date.match(dateFormat)) {
@@ -11,4 +11,4 @@ function isDate(req, res, next) {
     next();
 }
 
-module.exports = isDate;
+module.exports = isValidDate;
