@@ -1,3 +1,4 @@
+// returns error if people data type is not a number
 function isValidNumber(req, res, next) {
     const { data: { people } } = req.body;
     if (!Number.isInteger(people)) {

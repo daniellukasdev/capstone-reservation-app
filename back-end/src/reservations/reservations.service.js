@@ -26,9 +26,9 @@ function list() {
 }
 
 // creates a new row in the reservations table
-function create(reservation) {
+function create(newReservation) {
     return knex("reservations")
-        .insert(reservation)
+        .insert(newReservation)
         .returning("*")
         .then((createdReservations) => createdReservations[0]);
 }
