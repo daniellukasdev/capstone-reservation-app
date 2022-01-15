@@ -40,7 +40,8 @@ async function list(req, res) {
 // }
 
 async function create(req, res) {
-  res.json(201).json({ data: await reservationsService.create(req.body.data) });
+  const data = await reservationsService.create(req.body.data);
+  res.json(201).json({ data });
 }
 
 module.exports = {
