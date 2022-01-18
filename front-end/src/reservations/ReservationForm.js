@@ -31,7 +31,6 @@ export default function ReservationForm() {
                 ...formData,
                 [target.id]: Number(target.value),
             });
-            console.log(typeof(formData.people))
         }
         setFormData({
             ...formData,
