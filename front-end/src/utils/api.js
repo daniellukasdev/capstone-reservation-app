@@ -74,7 +74,7 @@ export async function listReservations(params, signal) {
  * the reservation to save
  * @signal
  * optional AbortController.signal
- * @returns {Promise<reservation>}
+ * @returns {Promise<{reservation}>}
  * a promise that resolves the saved reservation, 
  * which will have a `reservation_id` property
  */
