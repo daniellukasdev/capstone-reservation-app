@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import CancelBtn from "../buttons/CancelBtn";
 import SubmitBtn from "../buttons/SubmitBtn";
-import { today } from "../utils/date-time";
 
 
 export default function ReservationForm() {
@@ -27,13 +26,13 @@ export default function ReservationForm() {
      * functions to handle input changes
      */
     const handleInputChange = ({target}) =>{
-        // if (target.name === "people") {
-        //     setFormData({
-        //         ...formData,
-        //         people: Number(target.value),
-        //     });
-        //     console.log(typeof(formData.people))
-        // }
+        if (target.id === "people") {
+            setFormData({
+                ...formData,
+                [target.id]: Number(target.value),
+            });
+            console.log(typeof(formData.people))
+        }
         setFormData({
             ...formData,
             [target.name]: target.value,
