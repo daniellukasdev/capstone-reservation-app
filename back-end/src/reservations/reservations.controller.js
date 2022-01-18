@@ -1,9 +1,7 @@
 const reservationsService = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
-// const isValidDate = require("../errors/isValidDate");
-// const isValidTime = require("../errors/isValidTime");
-// const isValidNumber = require("../errors/isValidNumber")
+
 
 const hasRequiredProperties = hasProperties(
   "first_name", 

@@ -20,9 +20,16 @@ function listReservationsByDate(reservation_date) {
 
 // creates a table containing all reservations
 function list() {
-    return knex("reservations as r")
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const today = year + "-" + month + "-" + day;
+
+    return knex("reservations")
     .select("*")
-    .orderBy("r.reservation_date");
+    .where({ reservation_date: today })
+    .orderBy("reservation_date");
 }
 
 // creates a new row in the reservations table

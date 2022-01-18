@@ -12,7 +12,7 @@ export default function ReservationForm() {
         first_name: "",
         last_name: "",
         mobile_number: "",
-        reservation_date: today(),
+        reservation_date: "",
         reservation_time: "",
         people: "",
     };
@@ -27,14 +27,13 @@ export default function ReservationForm() {
      * functions to handle input changes
      */
     const handleInputChange = ({target}) =>{
-        if (Number(target.value) && target.name === "people") {
-            console.log(target.name, target.value)
-            setFormData({
-                ...formData,
-                [target.name]: Number(target.value),
-            });
-        }
-        console.log(target.value)
+        // if (target.name === "people") {
+        //     setFormData({
+        //         ...formData,
+        //         people: Number(target.value),
+        //     });
+        //     console.log(typeof(formData.people))
+        // }
         setFormData({
             ...formData,
             [target.name]: target.value,
@@ -45,7 +44,7 @@ export default function ReservationForm() {
         event.preventDefault();
         const abortController = new AbortController();
         try {
-            await createReservation(formData, abortController.signal);
+            await createReservation({...formData, people: Number(formData.people)}, abortController.signal);
             history.push(`/dashboard?date=${formData.reservation_date}`);
             setFormData({ ...initialFormState });
         } catch (err) {
