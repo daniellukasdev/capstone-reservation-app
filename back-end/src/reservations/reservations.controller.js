@@ -45,21 +45,34 @@ function isValidDate(req, res, next) {
   const dateFormat = /\d\d\d\d-\d\d-\d\d/;
   const isOpen = checkIfOpen(reservation_date, reservation_time);
   const inPast = checkIfInPast(reservation_date, reservation_time);
+  const errors = [];
+
   if (!reservation_date.match(dateFormat)) {
       return next({
           status: 400,
           message: "The reservation_date must be a valid date format 'YYYY-MM-DD'",
       });
-  } else if (!isOpen) {
+  }
+  if (!isOpen) {
+    errors.push("Please choose a different day, as the restaurant is closed on Tuesdays.");
+    // return next({
+    //     status: 400,
+    //     message: "Please choose a different day, as the restaurant is closed on Tuesdays.",
+    // });
+  }
+  if (inPast) {
+    errors.push("Please choose a date in the future.");
+    // return next({
+    //     status: 400,
+    //     message: "Please choose today or a date in the future.",
+    // });
+  }
+
+  if (errors.length) {
     return next({
-        status: 400,
-        message: "Please choose a different day, as the restaurant is closed on Tuesdays.",
-    });
-  } else if (inPast) {
-    return next({
-        status: 400,
-        message: "Please choose today or a date in the future.",
-    });
+      status: 400,
+      message: errors.join(" ")
+    })
   }
   next();
 }

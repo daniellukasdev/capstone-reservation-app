@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import CancelBtn from "../buttons/CancelBtn";
 import SubmitBtn from "../buttons/SubmitBtn";
-import ErrorAlert from "../layout/ErrorAlert";
+import ErrorList from "../layout/ErrorList";
 
 
 export default function ReservationForm() {
@@ -32,18 +32,20 @@ export default function ReservationForm() {
                 ...formData,
                 [target.id]: Number(target.value),
             });
+        } else {
+            setFormData({
+                ...formData,
+                [target.id]: target.value,
+            });
         }
-        setFormData({
-            ...formData,
-            [target.name]: target.value,
-        });
+        
     }
 
     async function handleSubmit(event) {
         event.preventDefault();
         const abortController = new AbortController();
         try {
-            await createReservation({...formData, people: Number(formData.people)}, abortController.signal);
+            await createReservation(formData, abortController.signal);
             history.push(`/dashboard?date=${formData.reservation_date}`);
             setFormData({ ...initialFormState });
         } catch (err) {
@@ -54,7 +56,9 @@ export default function ReservationForm() {
 
     return (
         <div>
-            <ErrorAlert error={error} />
+            <div>
+                <ErrorList error={error} />
+            </div>
             <form onSubmit={handleSubmit}>
                 <fieldset>
                     <div className="col">
@@ -116,7 +120,7 @@ export default function ReservationForm() {
                             name="reservation_time"
                             value={formData.reservation_time}
                             onChange={handleInputChange}
-                            required placeholder={"HH:MM"} 
+                            required placeholder="HH:MM" 
                             pattern="[0-9]{2}:[0-9]{2}"
                         />
                     </div>
@@ -127,9 +131,10 @@ export default function ReservationForm() {
                             // className="form-control"
                             id="people"
                             name="people"
+                            placeholder="Number of people attending"
                             value={formData.people}
                             onChange={handleInputChange}
-                            required min="1"
+                            required min={1}
                         />
                     </div>
                     <div className="col">
