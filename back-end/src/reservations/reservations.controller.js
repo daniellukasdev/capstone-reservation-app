@@ -7,7 +7,7 @@ const hasProperties = require("../errors/hasProperties");
  * ####################  Helper Functions  ####################
  **/
 
- /** checks the requested date to check if it is a Tuesday (weekday '2')
+/** checks the requested date to check if it is a Tuesday (weekday '2')
  * or a date in the past
 **/
 function checkIfOpen(reservationDate, reservationTime) {
@@ -15,6 +15,15 @@ function checkIfOpen(reservationDate, reservationTime) {
   const reservationDay = requestedDate.getDay();
   if (reservationDay === 2) return false;
   return true;
+}
+
+ /** checks the requested date to check if it is a Tuesday (weekday '2')
+ * or a date in the past
+**/
+function checkIfInPast(reservationDate, reservationTime) {
+  const requestedDate = new Date(`${reservationDate} ${reservationTime}`);
+  const today = new Date();
+  return today > requestedDate;
 }
 
 /**
@@ -33,8 +42,9 @@ function checkIfOpen(reservationDate, reservationTime) {
 // checks if the reservation date value is a valid date format
 function isValidDate(req, res, next) {
   const { data: { reservation_date, reservation_time } } = req.body;
-  const isOpen = checkIfOpen(reservation_date, reservation_time);
   const dateFormat = /\d\d\d\d-\d\d-\d\d/;
+  const isOpen = checkIfOpen(reservation_date, reservation_time);
+  const inPast = checkIfInPast(reservation_date, reservation_time);
   if (!reservation_date.match(dateFormat)) {
       return next({
           status: 400,
@@ -45,7 +55,12 @@ function isValidDate(req, res, next) {
         status: 400,
         message: "Please choose a different day, as the restaurant is closed on Tuesdays.",
     });
-}
+  } else if (inPast) {
+    return next({
+        status: 400,
+        message: "Please choose today or a date in the future.",
+    });
+  }
   next();
 }
 
