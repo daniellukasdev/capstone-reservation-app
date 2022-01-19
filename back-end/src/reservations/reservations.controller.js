@@ -3,30 +3,49 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 
 
-const hasRequiredProperties = hasProperties(
+ /**
+ * ####################  Helper Functions  ####################
+ **/
+
+ /** checks the requested date to check if it is a Tuesday (weekday '2')
+ * or a date in the past
+**/
+function checkIfOpen(reservationDate, reservationTime) {
+  const requestedDate = new Date(`${reservationDate} ${reservationTime}`);
+  const reservationDay = requestedDate.getDay();
+  if (reservationDay === 2) return false;
+  return true;
+}
+
+/**
+ * #######################  Middleware  #######################
+ **/
+
+ const hasRequiredProperties = hasProperties(
   "first_name", 
   "last_name", 
   "mobile_number", 
   "reservation_date", 
   "reservation_time",
   "people"
-  )
-
-
-/**
- * #######################  Middleware  #######################
- */
+);
 
 // checks if the reservation date value is a valid date format
 function isValidDate(req, res, next) {
-  const { data: { reservation_date } } = req.body;
+  const { data: { reservation_date, reservation_time } } = req.body;
+  const isOpen = checkIfOpen(reservation_date, reservation_time);
   const dateFormat = /\d\d\d\d-\d\d-\d\d/;
   if (!reservation_date.match(dateFormat)) {
       return next({
           status: 400,
           message: "The reservation_date must be a valid date format 'YYYY-MM-DD'",
       });
-  }
+  } else if (!isOpen) {
+    return next({
+        status: 400,
+        message: "Please choose a different day, as the restaurant is closed on Tuesdays.",
+    });
+}
   next();
 }
 
@@ -54,6 +73,9 @@ function isValidNumber(req, res, next) {
   }
   next();
 }
+
+
+
 
 /**
  * #########################  Routes  #########################
