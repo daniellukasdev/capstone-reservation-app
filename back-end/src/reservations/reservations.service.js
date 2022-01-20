@@ -40,6 +40,12 @@ function create(newReservation) {
         .then((createdReservations) => createdReservations[0]);
 }
 
+// creates a table for a single reservation
+// function read(reservation_id) {
+//     return knex("reservations")
+//         .sele
+// }
+
 
 module.exports = {
     list,
