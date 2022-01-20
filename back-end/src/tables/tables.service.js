@@ -16,6 +16,13 @@ function list() {
         .orderBy("table_name");
 }
 
+function read(table_id) {
+    return knex("tables")
+        .select("*")
+        .where({ table_id })
+        .first();
+}
+
 function create(newTable) {
     return knex("table")
         .insert(newTable)
@@ -26,5 +33,6 @@ function create(newTable) {
 
 module.exports = {
     list,
+    read,
     create,
 }
