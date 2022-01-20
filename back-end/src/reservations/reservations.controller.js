@@ -7,9 +7,9 @@ const hasProperties = require("../errors/hasProperties");
  * ####################  Helper Functions  ####################
  **/
 
-/** checks the requested date to check if it is a Tuesday (weekday '2')
- * or a date in the past
-**/
+
+// checks if the requested date is a Tuesday (weekday '2')
+
 function checkIfOpen(reservationDate, reservationTime) {
   const requestedDate = new Date(`${reservationDate} ${reservationTime}`);
   const reservationDay = requestedDate.getDay();
@@ -17,9 +17,9 @@ function checkIfOpen(reservationDate, reservationTime) {
   return true;
 }
 
- /** checks the requested date to check if it is a Tuesday (weekday '2')
- * or a date in the past
-**/
+ 
+ // checks if the requested date is in the past
+
 function checkIfInPast(reservationDate, reservationTime) {
   const requestedDate = new Date(`${reservationDate} ${reservationTime}`);
   const today = new Date();
