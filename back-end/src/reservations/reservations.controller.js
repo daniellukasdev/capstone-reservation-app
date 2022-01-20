@@ -3,9 +3,9 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 
 
- /**
- * ####################  Helper Functions  ####################
- **/
+/********************************************************************
+ * #######################  Helper Functions  #######################
+ *******************************************************************/
 
 
 // checks if the requested date is a Tuesday (weekday '2')
@@ -34,9 +34,9 @@ function checkIfTooLate(reservationTime) {
   return reservationTime >= "21:30:00";
 }
 
-/**
- * #######################  Middleware  #######################
- **/
+/********************************************************************
+ * #########################  Middleware  ###########################
+ *******************************************************************/
 
  const hasRequiredProperties = hasProperties(
   "first_name", 
@@ -130,9 +130,9 @@ function isValidNumber(req, res, next) {
   next();
 }
 
-/**
- * #########################  Routes  #########################
- */
+/********************************************************************
+ * #########################  Routes  ###############################
+ *******************************************************************/
 
  // List handler for reservation resources
 async function list(req, res) {
