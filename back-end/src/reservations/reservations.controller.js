@@ -38,6 +38,10 @@ function checkIfTooLate(reservationTime) {
  * #########################  Middleware  ###########################
  *******************************************************************/
 
+
+// *************  WHEN REFACTOR, ADD VALIDATION FOR DATA  ***********
+
+
  const hasRequiredProperties = hasProperties(
   "first_name", 
   "last_name", 
