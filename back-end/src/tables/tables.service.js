@@ -16,7 +16,15 @@ function list() {
         .orderBy("table_name");
 }
 
+function create(newTable) {
+    return knex("table")
+        .insert(newTable)
+        .returning("*")
+        .then((createdTable) => createdTable[0]);
+}
+
 
 module.exports = {
     list,
+    create,
 }
