@@ -113,3 +113,25 @@ export async function listTables(signal) {
   const url = `${API_BASE_URL}/tables`;
   return await fetchJson(url, { signal }, []);
 }
+
+/**
+ * Saves the table to the database
+ * @param table
+ * the table to save
+ * @signal
+ * optional AbortController.signal
+ * @returns {Promise<{table}>}
+ * a promise that resolves the saved table, 
+ * which will have a `table_id` property
+ */
+
+export async function createTable(table, signal) {
+  const url = `${API_BASE_URL}/tables`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: table }),
+    signal,
+  }
+  return await fetchJson(url, options, {});
+}
