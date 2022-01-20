@@ -52,10 +52,17 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
+
+/******************************************************************
+ * #######################   Reservations   #######################
+ *****************************************************************/
+
+
 /**
- * Retrieves all existing reservation.
+ * Retrieves all existing reservations.
  * @returns {Promise<[reservation]>}
- *  a promise that resolves to a possibly empty array of reservation saved in the database.
+ *  a promise that resolves to a possibly empty array of reservations
+ *  saved in the database.
  */
 
 export async function listReservations(params, signal) {
@@ -88,4 +95,21 @@ export async function createReservation(reservation, signal) {
     signal,
   };
   return await fetchJson(url, options, {});
+}
+
+
+/******************************************************************
+ * ##########################   Tables   ##########################
+ *****************************************************************/
+
+/**
+ * Retrieves all existing tables.
+ * @returns {Promise<[tables]>}
+ *  a promise that resolves to a possibly empty array of tables 
+ * saved in the database.
+ */
+
+export async function listTables(signal) {
+  const url = `${API_BASE_URL}/tables`;
+  return await fetchJson(url, { signal }, []);
 }
