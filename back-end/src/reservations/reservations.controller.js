@@ -7,9 +7,8 @@ const hasProperties = require("../errors/hasProperties");
  * ####################  Helper Functions  ####################
  **/
 
-/** checks the requested date to check if it is a Tuesday (weekday '2')
- * or a date in the past
-**/
+
+// checks if the requested date is a Tuesday (weekday '2')
 function checkIfOpen(reservationDate, reservationTime) {
   const requestedDate = new Date(`${reservationDate} ${reservationTime}`);
   const reservationDay = requestedDate.getDay();
@@ -17,13 +16,22 @@ function checkIfOpen(reservationDate, reservationTime) {
   return true;
 }
 
- /** checks the requested date to check if it is a Tuesday (weekday '2')
- * or a date in the past
-**/
+ 
+ // checks if the requested date is in the past
 function checkIfInPast(reservationDate, reservationTime) {
   const requestedDate = new Date(`${reservationDate} ${reservationTime}`);
   const today = new Date();
-  return today > requestedDate;
+  return today >= requestedDate;
+}
+
+// checks if requested time is before 10:30am
+function checkIfTooEarly(reservationTime) {
+  return reservationTime <= "10:29:59"
+}
+
+// checks if requested time is 9:30pm or later
+function checkIfTooLate(reservationTime) {
+  return reservationTime >= "21:30:00";
 }
 
 /**
@@ -48,10 +56,11 @@ function isValidDate(req, res, next) {
   const errors = [];
 
   if (!reservation_date.match(dateFormat)) {
-      return next({
-          status: 400,
-          message: "The reservation_date must be a valid date format 'YYYY-MM-DD'",
-      });
+    errors.push("The reservation_date must be a valid date format 'YYYY-MM-DD'");
+      // return next({
+      //     status: 400,
+      //     message: "The reservation_date must be a valid date format 'YYYY-MM-DD'",
+      // });
   }
   if (!isOpen) {
     errors.push("Please choose a different day, as the restaurant is closed on Tuesdays.");
@@ -67,7 +76,7 @@ function isValidDate(req, res, next) {
     //     message: "Please choose today or a date in the future.",
     // });
   }
-
+  
   if (errors.length) {
     return next({
       status: 400,
@@ -81,11 +90,30 @@ function isValidDate(req, res, next) {
 function isValidTime(req, res, next) {
   const timeFormat = /\d\d:\d\d/;
   const { data: { reservation_time } } = req.body;
+  const errors = [];
   if (!reservation_time.match(timeFormat)) {
-      return next({
-          status: 400,
-          message: "The reservation_time must be a valid time format 'HH:MM:SS'",
-      });
+    errors.push("The reservation_time must be a valid time format 'HH:MM:SS'");
+      // return next({
+      //     status: 400,
+      //     message: "The reservation_time must be a valid time format 'HH:MM:SS'",
+      // });
+  }
+
+  if (checkIfTooEarly(reservation_time)) {
+    errors.push("The restaurant does not open until 10:30am")
+  }
+
+  if (checkIfTooLate(reservation_time)) {
+    errors.push(
+      "The restuarant closes at 10:30pm, so please make your reservations for no later than 9:30pm"
+      );
+  }
+
+  if (errors.length) {
+    return next({
+      status: 400,
+      message: errors.join(" ")
+    })
   }
   next();
 }
