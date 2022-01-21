@@ -35,7 +35,7 @@ function update(table_id, reservation_id) {
         .update({ reservation_id })
         .returning("*");
 }
-function validReservation(reservation_id) {
+function readReservation(reservation_id) {
     return knex("reservations")
         .select("*")
         .where({ reservation_id })
@@ -47,6 +47,6 @@ module.exports = {
     list,
     read,
     create,
-    validReservation,
+    readReservation,
     update,
 }
