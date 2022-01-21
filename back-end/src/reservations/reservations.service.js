@@ -52,5 +52,6 @@ function read(reservation_id) {
 module.exports = {
     list,
     listReservationsByDate,
+    read,
     create,
 }
