@@ -41,10 +41,12 @@ function create(newReservation) {
 }
 
 // creates a table for a single reservation
-// function read(reservation_id) {
-//     return knex("reservations")
-//         .sele
-// }
+function read(reservation_id) {
+    return knex("reservations")
+        .select("*")
+        .where({ reservation_id})
+        .first();
+}
 
 
 module.exports = {
