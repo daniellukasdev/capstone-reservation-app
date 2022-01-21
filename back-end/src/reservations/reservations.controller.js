@@ -41,7 +41,7 @@ function checkIfTooLate(reservationTime) {
 
 // *************  WHEN REFACTOR, ADD VALIDATION FOR DATA  ***********
 
-
+// checks that the reservation with reservation_id in req.params exists
 async function reservationExists(req, res, next) {
     const { reservation_id } = req.params;
     const reservation = await reservationsService.read(reservation_id);
