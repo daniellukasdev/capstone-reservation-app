@@ -111,12 +111,24 @@ async function create(req, res) {
     res.status(201).json({ data });
 }
 
+async function update(req, res) {
+    const { table_id } = res.locals.table;
+    const { reservation_id } = req.body.data;
+    const data = await tableService.update(Number(table_id), reservation_id);
+    res.status(200).json({ data });
+}
+
 
 module.exports = {
     list: [asyncErrorBoundary(list)],
-    read: [asyncErrorBoundary(tableExists)],
     create: [
         validateTable, 
         // hasOnlyValidProperties, 
-        asyncErrorBoundary(create)],
+        asyncErrorBoundary(create)
+    ],
+    update: [
+        asyncErrorBoundary(tableExists),
+        validateTable, 
+        asyncErrorBoundary(update)
+    ],
 }
