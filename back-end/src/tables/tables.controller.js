@@ -11,22 +11,23 @@ const hasProperties = require("../errors/hasProperties");
 /********************************************************************
  * #########################  Middleware  ###########################
  *******************************************************************/
-async function tableExists(req, res, next) {
-    const { tableId } = req.params;
+// async function tableExists(req, res, next) {
+//     const { table_id } = req.params;
+//     const table = await tableService.read(table_id);
 
-    const table = await tableService.read(tableId);
-    if (table) {
-        res.locals.table = table;
-        return next();
-    }
-    return next({
-        status: 404,
-        message: "Table with cannot be found."
-    });
-}
+//     if (table) {
+//         res.locals.table = table;
+//         return next();
+//     }
+//     return next({
+//         status: 404,
+//         message: `Table with id ${table_id} cannot be found.`,
+//     });
+// }
+
 const VALID_PROPERTIES = [
-    "table_name",
-    "capacity",
+    "table_name", 
+    "capacity", 
     "reservation_id"
 ];
 
@@ -46,6 +47,17 @@ function hasOnlyValidProperties(req, res, next) {
       });
     }
     next();
+  }
+
+  function validateTable(req, res, next) {
+    const data = req.body.data;
+    if (!data) {
+        return next({
+            status: 400,
+            message: "Data is missing"
+        })
+    }
+    next()
   }
 
 
@@ -70,6 +82,9 @@ async function create(req, res) {
 
 module.exports = {
     list: [asyncErrorBoundary(list)],
-    read: [asyncErrorBoundary(tableExists), asyncErrorBoundary(read)],
-    create: [asyncErrorBoundary(create)],
+    // read: [asyncErrorBoundary(tableExists), asyncErrorBoundary(read)],
+    create: [
+        validateTable, 
+        hasOnlyValidProperties, 
+        asyncErrorBoundary(create)],
 }

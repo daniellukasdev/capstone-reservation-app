@@ -24,10 +24,9 @@ function read(table_id) {
 }
 
 function create(newTable) {
-    return knex("table")
-        .insert(newTable)
-        .returning("*")
-        .then((createdTable) => createdTable[0]);
+    return knex("tables")
+        .insert(newTable, "*")
+        .then((res) => res[0]);
 }
 
 
