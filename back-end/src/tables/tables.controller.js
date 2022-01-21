@@ -69,10 +69,6 @@ async function list(req, res) {
     const data = await tableService.list();
     res.json({ data });
 }
-async function read(req, res) {
-    const { table: data} = res.locals;
-    res.json({ data });
-}
 
 async function create(req, res) {
     const data = await tableService.create(req.body.data);
@@ -82,7 +78,6 @@ async function create(req, res) {
 
 module.exports = {
     list: [asyncErrorBoundary(list)],
-    // read: [asyncErrorBoundary(tableExists), asyncErrorBoundary(read)],
     create: [
         validateTable, 
         hasOnlyValidProperties, 
