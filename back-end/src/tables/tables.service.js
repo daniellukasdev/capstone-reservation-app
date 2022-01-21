@@ -29,9 +29,17 @@ function create(newTable) {
         .then((res) => res[0]);
 }
 
+function update(table_id, reservation_id) {
+    return knex("tables")
+        .where({ table_id })
+        .update({ reservation_id })
+        .returning("*");
+}
+
 
 module.exports = {
     list,
     read,
     create,
+    update,
 }
