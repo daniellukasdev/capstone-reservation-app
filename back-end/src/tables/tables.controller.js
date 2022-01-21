@@ -7,6 +7,21 @@ const hasProperties = require("../errors/hasProperties");
  * #######################  Helper Functions  #######################
  *******************************************************************/
 
+// checks existence and length of table_name and returns error if 
+// it doesn't exist or if it's less than two characters
+function checkTableName(tableName) {
+  if (!tableName || tableName.length <= 1) {
+    return "Please include a 'table_name' with at least two characters in length."
+  }
+}
+
+// checks existence, datatype, and value of 'capacity' and returns error 
+// if it doesn't exist, is not a number, or is less than or equal to zero
+function checkCapacity(capacity) {
+  if (!capacity || typeof capacity !== "number" || capacity <= 0) {
+    return "Please include a capacity that is a number greater than 0."
+  }
+}
 
 /********************************************************************
  * #########################  Middleware  ###########################
@@ -25,14 +40,13 @@ const hasProperties = require("../errors/hasProperties");
 //     });
 // }
 
-const VALID_PROPERTIES = [
+function hasOnlyValidProperties(data) {
+  const VALID_PROPERTIES = [
     "table_name", 
     "capacity", 
     "reservation_id"
 ];
-
-function hasOnlyValidProperties(req, res, next) {
-    const { data = {} } = req.body;
+    // const { data = {} } = req.body;
     // iterate through the keys in the req body
     // stores any invalid field into an array
     const invalidFields = Object.keys(data).filter(
@@ -41,21 +55,41 @@ function hasOnlyValidProperties(req, res, next) {
     // if there are any invalid fields, error gets
     // passed into next()
     if (invalidFields.length) {
-      return next({
-        status: 400,
-        message: `Invalid field(s): ${invalidFields.join(", ")}`,
-      });
+      return `Invalid field(s): ${invalidFields.join(", ")}`;
+      // return next({
+      //   status: 400,
+      //   message: `Invalid field(s): ${invalidFields.join(", ")}`,
+      // });
     }
-    next();
+    // next();
   }
 
+  const hasRequiredProperties = hasProperties(
+    "table_name", 
+    "capacity", 
+  );
+
   function validateTable(req, res, next) {
+    const errors = [];
     const data = req.body.data;
     if (!data) {
-        return next({
-            status: 400,
-            message: "Data is missing"
-        })
+      errors.push("Data is missing.");
+    } else {
+      const invalidName = checkTableName(data.table_name);
+      if (invalidName) errors.push(invalidName);
+
+      const invalidCapacity = checkCapacity(data.capacity);
+      if (invalidCapacity) errors.push(invalidCapacity);
+
+      // const hasInvalidProperties = hasOnlyValidProperties(data);
+      // if (hasInvalidProperties) errors.push(hasInvalidProperties);
+    }
+    
+    if (errors.length) {
+      return next({
+        status: 400,
+        message: errors.join(" ")
+      })
     }
     next()
   }
@@ -80,6 +114,6 @@ module.exports = {
     list: [asyncErrorBoundary(list)],
     create: [
         validateTable, 
-        hasOnlyValidProperties, 
+        // hasOnlyValidProperties, 
         asyncErrorBoundary(create)],
 }
