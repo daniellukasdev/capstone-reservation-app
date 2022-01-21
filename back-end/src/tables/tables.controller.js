@@ -26,19 +26,21 @@ function checkCapacity(capacity) {
 /********************************************************************
  * #########################  Middleware  ###########################
  *******************************************************************/
-// async function tableExists(req, res, next) {
-//     const { table_id } = req.params;
-//     const table = await tableService.read(table_id);
 
-//     if (table) {
-//         res.locals.table = table;
-//         return next();
-//     }
-//     return next({
-//         status: 404,
-//         message: `Table with id ${table_id} cannot be found.`,
-//     });
-// }
+// checks that the table exists with the table_id from the req.params
+async function tableExists(req, res, next) {
+    const { table_id } = req.params;
+    const table = await tableService.read(table_id);
+
+    if (table) {
+        res.locals.table = table;
+        return next();
+    }
+    return next({
+        status: 404,
+        message: `Table with id ${table_id} cannot be found.`,
+    });
+}
 
 function hasOnlyValidProperties(data) {
   const VALID_PROPERTIES = [
@@ -112,6 +114,7 @@ async function create(req, res) {
 
 module.exports = {
     list: [asyncErrorBoundary(list)],
+    read: [asyncErrorBoundary(tableExists)],
     create: [
         validateTable, 
         // hasOnlyValidProperties, 
