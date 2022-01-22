@@ -138,9 +138,13 @@ export default function ReservationForm() {
                         />
                     </div>
                     <div className="col">
-                        <div>
-                        <CancelBtn />
-                        <SubmitBtn />
+                        <div className="row">
+                            <div className="mr-1">
+                            <CancelBtn />
+                            </div>
+                            <div className="ml-1">
+                            <SubmitBtn />
+                            </div>
                         </div>
                     </div>
                 </fieldset>
