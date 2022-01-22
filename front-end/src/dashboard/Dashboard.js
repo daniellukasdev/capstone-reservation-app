@@ -32,19 +32,19 @@ function Dashboard({ date }) {
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">{`Reservations for ${date}`}</h4>
       </div>
-      <div>
+      <div className="btn-group btn-group-lg mb-2">
         <Link to={`/dashboard?date=${previous(date)}`}>
-          <button>
+          <button className="btn btn-secondary mr-1">
             Previous
           </button>
         </Link>
         <Link to={`/dashboard?date=${today()}`}>
-          <button>
+          <button className="btn btn-secondary mr-1 ml-1">
             Today
           </button>
         </Link>
         <Link to={`/dashboard?date=${next(date)}`}>
-          <button>
+          <button className="btn btn-secondary ml-1">
             Next
           </button>
         </Link>
