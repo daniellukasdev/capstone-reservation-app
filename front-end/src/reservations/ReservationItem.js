@@ -11,7 +11,7 @@ export default function ReservationItem({ reservation }) {
         people, 
     } = reservation;
     return (
-        <tr>
+        <tr key={reservation_id}>
             <td>{reservation_id}</td>
             <td>{last_name}, {first_name}</td>
             <td>{mobile_number}</td>
