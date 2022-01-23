@@ -16,8 +16,12 @@ export default function ReservationForm() {
     people: "",
   };
 
+  /**
+   * state management of form input fields and error
+   */
   const [formData, setFormData] = useState({ ...initialFormState });
   const [error, setError] = useState(null);
+
   const history = useHistory();
 
   /**
@@ -37,6 +41,7 @@ export default function ReservationForm() {
     }
   };
 
+  // sends POST request to api with formData
   async function handleSubmit(event) {
     event.preventDefault();
     const abortController = new AbortController();
