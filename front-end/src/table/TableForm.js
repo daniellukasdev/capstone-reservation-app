@@ -53,7 +53,9 @@ export default function TableForm() {
 
   return (
     <div>
-      <div><ErrorList error={error} /></div>
+      <div>
+        <ErrorList error={error} />
+      </div>
       <form onSubmit={handleSubmit}>
         <fieldset>
           <div className="row">
