@@ -7,6 +7,7 @@ import { today } from "../utils/date-time";
 import CreateReservation from "./CreateReservation";
 import useQuery from "../utils/useQuery";
 import CreateTable from "./CreateTable";
+import SeatReservation from "./SeatReservation";
 
 /**
  * Defines all the routes for the application.
@@ -20,10 +21,10 @@ function Routes() {
   let date = query.get("date");
   return (
     <Switch>
-      <Route exact={true} path="/">
+      <Route exact path="/">
         <Redirect to={"/dashboard"} />
       </Route>
-      <Route exact={true} path="/reservations">
+      <Route exact path="/reservations">
         <Redirect to={"/dashboard"} />
       </Route>
       <Route path="/dashboard">
@@ -31,6 +32,9 @@ function Routes() {
       </Route>
       <Route path="/reservations/new">
         <CreateReservation />
+      </Route>
+      <Route path={"/reservations/:reservationId/seat"}>
+        <SeatReservation />
       </Route>
       <Route path="/tables/new">
         <CreateTable />
