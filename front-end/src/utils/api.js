@@ -52,10 +52,17 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
+
+/******************************************************************
+ * #######################   Reservations   #######################
+ *****************************************************************/
+
+
 /**
- * Retrieves all existing reservation.
+ * Retrieves all existing reservations.
  * @returns {Promise<[reservation]>}
- *  a promise that resolves to a possibly empty array of reservation saved in the database.
+ *  a promise that resolves to a possibly empty array of reservations
+ *  saved in the database.
  */
 
 export async function listReservations(params, signal) {
@@ -88,4 +95,58 @@ export async function createReservation(reservation, signal) {
     signal,
   };
   return await fetchJson(url, options, {});
+}
+
+
+/******************************************************************
+ * ##########################   Tables   ##########################
+ *****************************************************************/
+
+/**
+ * Retrieves all existing tables.
+ * @returns {Promise<[tables]>}
+ *  a promise that resolves to a possibly empty array of tables 
+ * saved in the database.
+ */
+
+export async function listTables(signal) {
+  const url = `${API_BASE_URL}/tables`;
+  return await fetchJson(url, { signal });
+}
+
+/**
+ * Saves the table to the database
+ * @param table
+ * the table to save
+ * @signal
+ * optional AbortController.signal
+ * @returns {Promise<{table}>}
+ * a promise that resolves the saved table, 
+ * which will have a `table_id` property
+ */
+
+export async function createTable(table, signal) {
+  const url = `${API_BASE_URL}/tables`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: table }),
+    signal,
+  }
+  return await fetchJson(url, options);
+}
+
+export async function updateTable(tableId, reservationId, signal) {
+  const url = `${API_BASE_URL}/tables/${tableId}/seat`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ 
+      data: { 
+        reservation_id: reservationId,
+      }, 
+    }),
+    signal,
+  }
+  return await fetchJson(url, options);
 }

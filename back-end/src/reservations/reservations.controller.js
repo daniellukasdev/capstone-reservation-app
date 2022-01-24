@@ -3,9 +3,9 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 
 
- /**
- * ####################  Helper Functions  ####################
- **/
+/********************************************************************
+ * #######################  Helper Functions  #######################
+ *******************************************************************/
 
 
 // checks if the requested date is a Tuesday (weekday '2')
@@ -34,9 +34,27 @@ function checkIfTooLate(reservationTime) {
   return reservationTime >= "21:30:00";
 }
 
-/**
- * #######################  Middleware  #######################
- **/
+/********************************************************************
+ * #########################  Middleware  ###########################
+ *******************************************************************/
+
+
+// *************  WHEN REFACTOR, ADD VALIDATION FOR DATA  ***********
+
+// checks that the reservation with reservation_id in req.params exists
+async function reservationExists(req, res, next) {
+    const { reservation_id } = req.params;
+    const reservation = await reservationsService.read(reservation_id);
+
+    if (reservation) {
+        res.locals.reservation = reservation;
+        return next();
+    }
+    return next({
+        status: 404,
+        message: `Reservation with id ${reservation_id} cannot be found.`,
+    });
+}
 
  const hasRequiredProperties = hasProperties(
   "first_name", 
@@ -57,24 +75,12 @@ function isValidDate(req, res, next) {
 
   if (!reservation_date.match(dateFormat)) {
     errors.push("The reservation_date must be a valid date format 'YYYY-MM-DD'");
-      // return next({
-      //     status: 400,
-      //     message: "The reservation_date must be a valid date format 'YYYY-MM-DD'",
-      // });
   }
   if (!isOpen) {
     errors.push("Please choose a different day, as the restaurant is closed on Tuesdays.");
-    // return next({
-    //     status: 400,
-    //     message: "Please choose a different day, as the restaurant is closed on Tuesdays.",
-    // });
   }
   if (inPast) {
     errors.push("Please choose a date in the future.");
-    // return next({
-    //     status: 400,
-    //     message: "Please choose today or a date in the future.",
-    // });
   }
   
   if (errors.length) {
@@ -93,10 +99,6 @@ function isValidTime(req, res, next) {
   const errors = [];
   if (!reservation_time.match(timeFormat)) {
     errors.push("The reservation_time must be a valid time format 'HH:MM:SS'");
-      // return next({
-      //     status: 400,
-      //     message: "The reservation_time must be a valid time format 'HH:MM:SS'",
-      // });
   }
 
   if (checkIfTooEarly(reservation_time)) {
@@ -130,9 +132,9 @@ function isValidNumber(req, res, next) {
   next();
 }
 
-/**
- * #########################  Routes  #########################
- */
+/********************************************************************
+ * #########################  Routes  ###############################
+ *******************************************************************/
 
  // List handler for reservation resources
 async function list(req, res) {
@@ -146,10 +148,12 @@ async function list(req, res) {
   }
 }
 
-// if the reservation exists, responds with the data
-// async function read(req, res) {
-//   const { reservation } = 
-// }
+  // if the reservation exists, responds with the data
+  async function read(req, res) {
+    const { reservation_id } = res.locals.reservation;
+    const data = await reservationsService.read(reservation_id);
+    res.status(200).json({ data });
+  }
 
 async function create(req, res) {
   const data = await reservationsService.create(req.body.data);
@@ -158,6 +162,7 @@ async function create(req, res) {
 
 module.exports = {
   list: [asyncErrorBoundary(list)],
+  read: [asyncErrorBoundary(reservationExists),asyncErrorBoundary(read)],
   create: [
     hasRequiredProperties, 
     isValidDate, 
