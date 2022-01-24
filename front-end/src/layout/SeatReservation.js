@@ -36,9 +36,10 @@ export default function SeatReservation() {
   async function handleSubmit(event) {
       event.preventDefault();
       const abortController = new AbortController();
+      console.log(selectedTable)
       try {
           // send PUT request to API with reservationId and selected table
-        await updateTable(Number(selectedTable.table_id), reservationId, abortController.signal)
+        await updateTable(selectedTable, reservationId, abortController.signal)
         history.push("/dashboard");
       } catch (err) {
           setTablesError(err);
