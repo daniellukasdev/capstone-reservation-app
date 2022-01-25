@@ -1,8 +1,17 @@
 import React from "react";
 import TableItem from "./TableItem";
 
-export default function TableList({ tables }) {
-  const tableItems = tables.map((table) => <TableItem table={table} />);
+export default function TableList({
+  tables,
+  setTables,
+  tablesError,
+  setTablesError,
+}) {
+  
+
+  const tableItems = tables.map((table) => (
+    <TableItem table={table} setTables={setTables} />
+  ));
   return (
     <div>
       <table className="table no-wrap mt-3">

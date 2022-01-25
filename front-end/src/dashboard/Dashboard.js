@@ -4,7 +4,7 @@ import { listReservations, listTables } from "../utils/api";
 import { next, previous, today } from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "../reservations/ReservationList";
-import TableList from "../table/TableList";
+import TableList from "./TableList";
 
 /**
  * Defines the dashboard page.
@@ -27,10 +27,26 @@ function Dashboard({ date }) {
       .then(setReservations)
       .catch(setReservationsError);
 
-    listTables(abortController.signal).then(setTables).catch(setTablesError);
+    // listTables(abortController.signal).then(setTables).catch(setTablesError);
 
     return () => abortController.abort();
   }
+
+  // Load tables from API
+  useEffect(() => {
+    const abortController = new AbortController();
+    async function loadTables() {
+      try {
+        const tablesFromAPI = await listTables(abortController.signal);
+        setTables(tablesFromAPI);
+      } catch (err) {
+        setTablesError(err);
+      }
+    }
+    loadTables();
+
+    return () => abortController.abort();
+  }, []);
 
   // Load dashboard
   // useEffect(() => {
