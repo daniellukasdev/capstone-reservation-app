@@ -175,6 +175,12 @@ async function update(req, res) {
   res.status(200).json({ data });
 }
 
+async function destroy(req, res) {
+  const { table_id } = res.locals.tables;
+  const data = await tableService.clearTable(table_id);
+  res.sendStatus(200).json({ data });
+}
+
 module.exports = {
   list: [asyncErrorBoundary(list)],
   create: [
@@ -189,5 +195,9 @@ module.exports = {
     asyncErrorBoundary(tableExists),
     validateUpdateTable,
     asyncErrorBoundary(update),
+  ],
+  delete: [
+    tableExists,
+    asyncErrorBoundary(destroy),
   ],
 };
