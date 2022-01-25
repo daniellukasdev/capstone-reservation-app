@@ -32,6 +32,24 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
+  // Load dashboard
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   async function loadDashboard() {
+  //     try {
+  //       const reservationsFromAPI = await listReservations({ date });
+  //       setReservations(reservationsFromAPI);
+  //       const tablesFromAPI = await listTables(abortController.signal);
+  //       setTables(tablesFromAPI);
+  //     } catch (err) {
+  //       setTablesError(err);
+  //     }
+  //   }
+  //   loadDashboard();
+
+  //   return () => abortController.abort();
+  // }, [date]);
+
   return (
     <main>
       <h1>Dashboard</h1>
@@ -61,7 +79,12 @@ function Dashboard({ date }) {
         {/* {JSON.stringify(reservations)} */}
       </div>
       <div>
-        <TableList tables={tables} />
+        <TableList
+          tables={tables}
+          setTables={setTables}
+          tablesError={tablesError}
+          setTablesError={setTablesError}
+        />
         <ErrorAlert error={tablesError} />
       </div>
     </main>
