@@ -19,6 +19,7 @@ function Dashboard({ date }) {
   const [tablesError, setTablesError] = useState(null);
 
   useEffect(loadDashboard, [date]);
+  // useEffect(loadTables, []);
 
   function loadDashboard() {
     const abortController = new AbortController();
@@ -27,10 +28,19 @@ function Dashboard({ date }) {
       .then(setReservations)
       .catch(setReservationsError);
 
+    setTablesError(null);
     listTables(abortController.signal).then(setTables).catch(setTablesError);
 
     return () => abortController.abort();
   }
+
+  // function loadTables() {
+  //   const abortController = new AbortController();
+  //   setTablesError(null);
+  //   listTables(abortController.signal).then(setTables).catch(setTablesError);
+
+  //   return () => abortController.abort();
+  // }
 
   // Load tables from API
   // useEffect(() => {
