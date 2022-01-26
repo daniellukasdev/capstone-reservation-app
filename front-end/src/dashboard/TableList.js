@@ -1,14 +1,7 @@
 import React from "react";
 import TableItem from "./TableItem";
 
-export default function TableList({
-  tables,
-  setTables,
-  tablesError,
-  setTablesError,
-}) {
-  
-
+export default function TableList({ tables, setTables }) {
   const tableItems = tables.map((table) => (
     <TableItem table={table} setTables={setTables} />
   ));

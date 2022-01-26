@@ -27,26 +27,26 @@ function Dashboard({ date }) {
       .then(setReservations)
       .catch(setReservationsError);
 
-    // listTables(abortController.signal).then(setTables).catch(setTablesError);
+    listTables(abortController.signal).then(setTables).catch(setTablesError);
 
     return () => abortController.abort();
   }
 
   // Load tables from API
-  useEffect(() => {
-    const abortController = new AbortController();
-    async function loadTables() {
-      try {
-        const tablesFromAPI = await listTables(abortController.signal);
-        setTables(tablesFromAPI);
-      } catch (err) {
-        setTablesError(err);
-      }
-    }
-    loadTables();
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   async function loadTables() {
+  //     try {
+  //       const tablesFromAPI = await listTables(abortController.signal);
+  //       setTables(tablesFromAPI);
+  //     } catch (err) {
+  //       setTablesError(err);
+  //     }
+  //   }
+  //   loadTables();
 
-    return () => abortController.abort();
-  }, []);
+  //   return () => abortController.abort();
+  // }, []);
 
   // Load dashboard
   // useEffect(() => {
@@ -95,12 +95,7 @@ function Dashboard({ date }) {
         {/* {JSON.stringify(reservations)} */}
       </div>
       <div>
-        <TableList
-          tables={tables}
-          setTables={setTables}
-          tablesError={tablesError}
-          setTablesError={setTablesError}
-        />
+        <TableList tables={tables} setTables={setTables} />
         <ErrorAlert error={tablesError} />
       </div>
     </main>

@@ -6,22 +6,24 @@ export default function TableItem({ table, setTables }) {
     const abortController = new AbortController();
 
     const confirmation = window.confirm(
-      "Is this table ready to seat new guests? This cannot be undone."
+      "Is this table ready to seat new guests? \nThis cannot be undone."
     );
 
     if (confirmation) {
-      return await finishTable(tableId, abortController.signal);
-      //   return await refreshTables();
+      await finishTable(tableId, abortController.signal);
+    //   await refreshTables();
     }
 
     return () => abortController.abort();
   }
 
-  function refreshTables() {
+  async function refreshTables() {
     const abortController = new AbortController();
     // const refreshedTables = await listTables(abortController.signal);
     // setTables(refreshedTables);
+    console.log("before")
     listTables(abortController.signal).then(setTables);
+    console.log("after")
     return () => abortController.abort();
   }
 
@@ -37,9 +39,9 @@ export default function TableItem({ table, setTables }) {
       <td data-table-id-finish={table_id}>
         {reservation_id && (
           <button
-            onClick={async (event) => {
+            onClick={(event) => {
               event.preventDefault();
-              await handleDelete(table_id).then(refreshTables);
+              handleDelete(table_id).then(refreshTables);
             }}
             className="btn btn-outline-secondary"
           >

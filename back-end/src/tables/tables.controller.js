@@ -190,7 +190,7 @@ async function update(req, res) {
 async function destroy(req, res) {
   const { table_id } = res.locals.table;
   const data = await tableService.clearTable(table_id);
-  res.sendStatus(200).json({ data });
+  res.status(200).json({ data });
 }
 
 module.exports = {
