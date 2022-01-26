@@ -4,7 +4,6 @@ import { listTables, finishTable } from "../utils/api";
 export default function TableItem({ table, setTables }) {
   async function handleDelete(tableId) {
     const abortController = new AbortController();
-
     const confirmation = window.confirm(
       "Is this table ready to seat new guests? This cannot be undone."
     );
@@ -21,7 +20,9 @@ export default function TableItem({ table, setTables }) {
     const abortController = new AbortController();
     // const refreshedTables = await listTables(abortController.signal);
     // setTables(refreshedTables);
+    
     listTables(abortController.signal).then(setTables);
+
     return () => abortController.abort();
   }
 
@@ -31,15 +32,15 @@ export default function TableItem({ table, setTables }) {
       <td>{table_id}</td>
       <td>{table_name}</td>
       <td>{capacity}</td>
-      <td data-table-id-status={table_id}>
+      <td data-table-id-status={table.table_id}>
         {reservation_id ? "Occupied" : "Free"}
       </td>
-      <td data-table-id-finish={table_id}>
+      <td>
         {reservation_id && (
-          <button
-            onClick={async (event) => {
+          <button data-table-id-finish={table.table_id}
+            onClick={(event) => {
               event.preventDefault();
-              await handleDelete(table_id).then(refreshTables);
+              handleDelete(table_id).then(refreshTables);
             }}
             className="btn btn-outline-secondary"
           >
