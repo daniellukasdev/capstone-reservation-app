@@ -39,8 +39,8 @@ function checkIfTooLate(reservationTime) {
 
 // checks that the reservation with reservation_id in req.params exists
 async function reservationExists(req, res, next) {
-  const { reservation_id } = req.params;
-  const reservation = await reservationsService.read(reservation_id);
+  const { reservationId } = req.params;
+  const reservation = await reservationsService.read(reservationId);
 
   if (reservation) {
     res.locals.reservation = reservation;
@@ -48,7 +48,7 @@ async function reservationExists(req, res, next) {
   }
   return next({
     status: 404,
-    message: `Reservation with id ${reservation_id} cannot be found.`,
+    message: `Reservation with id ${reservationId} cannot be found.`,
   });
 }
 
@@ -148,20 +148,25 @@ function validateCreateStatus(req, res, next) {
       message: `Reservation with id ${reservation_id} is already ${status}`,
     });
   }
-  return next();
+  next();
 }
 
 function validateUpdateStatus(req, res, next) {
-  // const {
-  //   data: { reservation_id, status },
-  // } = req.body;
-  // if (message) {
-  //   return next({
-  //     status: 400,
-  //     message: `Reservation with id ${reservation_id} is already ${message}`,
-  //   });
-  // }
-  // return next();
+  const { reservation_id, status } = res.locals.reservation;
+  
+  if (req.body.data.status === "unknown") {
+    return next({
+      status: 400,
+      message: `The status of reservation with id ${reservation_id} is unknown.`,
+    });
+  }
+  if (status === "finished") {
+    return next({
+      status: 400,
+      message: `Reservation with id ${reservation_id} is already ${status}`,
+    });
+  }
+  next();
 }
 
 /********************************************************************
@@ -193,7 +198,8 @@ async function create(req, res) {
 }
 
 async function update(req, res) {
-  const { reservation_id, status } = res.locals.reservation;
+  const { reservation_id } = res.locals.reservation;
+  const { status } = req.body.data;
   const data = await reservationsService.updateStatus(reservation_id, status);
   res.status(200).json({ data });
 }
@@ -209,5 +215,9 @@ module.exports = {
     validateCreateStatus,
     asyncErrorBoundary(create),
   ],
-  update: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(update)],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    validateUpdateStatus,
+    asyncErrorBoundary(update),
+  ],
 };
