@@ -16,6 +16,7 @@ function list() {
         .orderBy("table_name");
 }
 
+// creates a table for table with given ID
 function read(table_id) {
     return knex("tables")
         .select("*")
@@ -23,23 +24,36 @@ function read(table_id) {
         .first();
 }
 
+// creates a table with param
 function create(newTable) {
     return knex("tables")
         .insert(newTable, "*")
         .then((res) => res[0]);
 }
 
+// for the table that matches the given ID, overrides the value of 
+// 'reservation_id' with the given reservation_id
 function update(table_id, reservation_id) {
     return knex("tables")
         .where({ table_id })
         .update({ reservation_id })
         .returning("*");
 }
+
+// creates a table with the given reservation_id if it exists
 function readReservation(reservation_id) {
     return knex("reservations")
         .select("*")
         .where({ reservation_id })
         .first();
+}
+
+// nullifies the reservation_id of the table with the given table_id
+function clearTable(table_id) {
+    return knex("tables")
+        .where({ table_id })
+        .update({ reservation_id: null })
+        .returning("*");
 }
 
 
@@ -49,4 +63,5 @@ module.exports = {
     create,
     readReservation,
     update,
+    clearTable,
 }

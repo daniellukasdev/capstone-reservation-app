@@ -20,7 +20,7 @@ export default function ReservationForm() {
    * state management of form input fields and error
    */
   const [formData, setFormData] = useState({ ...initialFormState });
-  const [error, setError] = useState(null);
+  const [reservationError, setReservationError] = useState(null);
 
   const history = useHistory();
 
@@ -50,7 +50,7 @@ export default function ReservationForm() {
       history.push(`/dashboard?date=${formData.reservation_date}`);
       setFormData({ ...initialFormState });
     } catch (err) {
-      setError(err);
+      setReservationError(err);
     }
     return () => abortController.abort();
   }
@@ -58,7 +58,7 @@ export default function ReservationForm() {
   return (
     <div>
       <div>
-        <ErrorList error={error} />
+        <ErrorList error={reservationError} />
       </div>
       <form onSubmit={handleSubmit}>
         <fieldset>

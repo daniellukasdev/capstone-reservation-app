@@ -154,6 +154,18 @@ function validateUpdateTable(req, res, next) {
   next();
 }
 
+// checks the table is occupied
+function isOccupied(req, res, next) {
+  const { table_name, reservation_id } = res.locals.table;
+  if (!reservation_id) {
+    return next({
+      status: 400,
+      message: `Table ${table_name} is not occupied.`
+    });
+  }
+  return next();
+}
+
 /********************************************************************
  * #########################  Routes  ###############################
  *******************************************************************/
@@ -175,6 +187,12 @@ async function update(req, res) {
   res.status(200).json({ data });
 }
 
+async function destroy(req, res) {
+  const { table_id } = res.locals.table;
+  const data = await tableService.clearTable(table_id);
+  res.status(200).json({ data });
+}
+
 module.exports = {
   list: [asyncErrorBoundary(list)],
   create: [
@@ -189,5 +207,10 @@ module.exports = {
     asyncErrorBoundary(tableExists),
     validateUpdateTable,
     asyncErrorBoundary(update),
+  ],
+  delete: [
+    tableExists,
+    isOccupied,
+    asyncErrorBoundary(destroy),
   ],
 };

@@ -4,7 +4,7 @@ import { listReservations, listTables } from "../utils/api";
 import { next, previous, today } from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "../reservations/ReservationList";
-import TableList from "../table/TableList";
+import TableList from "./TableList";
 
 /**
  * Defines the dashboard page.
@@ -19,6 +19,7 @@ function Dashboard({ date }) {
   const [tablesError, setTablesError] = useState(null);
 
   useEffect(loadDashboard, [date]);
+  // useEffect(loadTables, []);
 
   function loadDashboard() {
     const abortController = new AbortController();
@@ -27,10 +28,53 @@ function Dashboard({ date }) {
       .then(setReservations)
       .catch(setReservationsError);
 
+    setTablesError(null);
     listTables(abortController.signal).then(setTables).catch(setTablesError);
 
     return () => abortController.abort();
   }
+
+  // function loadTables() {
+  //   const abortController = new AbortController();
+  //   setTablesError(null);
+  //   listTables(abortController.signal).then(setTables).catch(setTablesError);
+
+  //   return () => abortController.abort();
+  // }
+
+  // Load tables from API
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   async function loadTables() {
+  //     try {
+  //       const tablesFromAPI = await listTables(abortController.signal);
+  //       setTables(tablesFromAPI);
+  //     } catch (err) {
+  //       setTablesError(err);
+  //     }
+  //   }
+  //   loadTables();
+
+  //   return () => abortController.abort();
+  // }, []);
+
+  // Load dashboard
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   async function loadDashboard() {
+  //     try {
+  //       const reservationsFromAPI = await listReservations({ date });
+  //       setReservations(reservationsFromAPI);
+  //       const tablesFromAPI = await listTables(abortController.signal);
+  //       setTables(tablesFromAPI);
+  //     } catch (err) {
+  //       setTablesError(err);
+  //     }
+  //   }
+  //   loadDashboard();
+
+  //   return () => abortController.abort();
+  // }, [date]);
 
   return (
     <main>
@@ -61,7 +105,7 @@ function Dashboard({ date }) {
         {/* {JSON.stringify(reservations)} */}
       </div>
       <div>
-        <TableList tables={tables} />
+        <TableList tables={tables} setTables={setTables} />
         <ErrorAlert error={tablesError} />
       </div>
     </main>
