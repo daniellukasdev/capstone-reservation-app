@@ -48,6 +48,8 @@ function read(reservation_id) {
         .first();
 }
 
+// for the reservqtion with the given id, overrides the
+// status with the status param
 function updateStatus(reservation_id, status) {
     return knex("reservations")
         .where({ reservation_id })
