@@ -34,7 +34,7 @@ export default function TableItem({ table, setTables, setReservations, date }) {
 
   const { table_id, table_name, capacity, reservation_id } = table;
   return (
-    <tr key={table_id}>
+    <>
       <td>{table_id}</td>
       <td>{table_name}</td>
       <td>{capacity}</td>
@@ -57,6 +57,6 @@ export default function TableItem({ table, setTables, setReservations, date }) {
           </button>
         )}
       </td>
-    </tr>
+    </>
   );
 }

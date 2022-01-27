@@ -14,7 +14,7 @@ export default function ReservationItem({ reservation }) {
   } = reservation;
 
   return (
-    <tr key={reservation_id}>
+    <>
       <td>{reservation_id}</td>
       <td>
         {last_name}, {first_name}
@@ -34,6 +34,6 @@ export default function ReservationItem({ reservation }) {
           </Link>
         )}
       </td>
-    </tr>
+    </>
   );
 }
