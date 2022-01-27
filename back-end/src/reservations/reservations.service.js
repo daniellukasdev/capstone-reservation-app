@@ -41,6 +41,17 @@ function updateStatus(reservation_id, status) {
     .then((res) => res[0]);
 }
 
+// builds a list of reservations matching the given mobile_number
+// with all non-numeric characters removed
+function search(mobile_number) {
+  return knex("reservations")
+    .whereRaw(
+      "translate(mobile_number, '() -', '') like ?",
+      `%${mobile_number.replace(/\D/g, "")}%`
+    )
+    .orderBy("reservation_date");
+}
+
 module.exports = {
   list,
   read,
