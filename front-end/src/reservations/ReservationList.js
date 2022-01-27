@@ -17,6 +17,7 @@ export default function ReservationList({ reservations }) {
             <th>Time</th>
             <th>People</th>
             <th>Status</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>{tableItems}</tbody>
