@@ -14,6 +14,7 @@ export default function TableList({ tables, setTables }) {
             <th>Table Name</th>
             <th>Capacity</th>
             <th>Availability</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>{tableItems}</tbody>
