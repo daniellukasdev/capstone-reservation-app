@@ -175,14 +175,9 @@ function validateUpdateStatus(req, res, next) {
 
 // List handler for reservation resources
 async function list(req, res) {
-  const date = req.query.date;
-
-  if (date) {
-    const data = await reservationsService.listReservationsByDate(date);
-    res.json({ data });
-  } else {
-    res.json({ data: await reservationsService.list() });
-  }
+  const { date } = req.query;
+  const data = await reservationsService.list(date);
+  res.status(200).json({ data });
 }
 
 // if the reservation exists, responds with the data

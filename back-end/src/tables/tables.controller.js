@@ -29,6 +29,10 @@ function checkForExceededCapacity(capacity, people) {
   }
 }
 
+function checkIfSeated(status) {
+  if (status === "seated") return true;
+}
+
 /********************************************************************
  * #########################  Middleware  ###########################
  *******************************************************************/
@@ -130,7 +134,7 @@ function validateTable(req, res, next) {
 
 function validateUpdateTable(req, res, next) {
   const table = res.locals.table;
-  const reservation = res.locals.reservation;
+  const { reservation_id, people, status } = res.locals.reservation;
   
   const occupied = table.reservation_id;
   if (occupied) {
@@ -142,13 +146,22 @@ function validateUpdateTable(req, res, next) {
 
   const capacityExceeded = checkForExceededCapacity(
     table.capacity,
-    reservation.people
+    people
     );
   if (capacityExceeded) {
     return next({
       status: 400,
       message:
         "Party size exceeds table capacity. Please select another table.",
+    });
+  }
+
+  const isSeated = checkIfSeated(status);
+  if (isSeated) {
+    return next({
+      status: 400,
+      message:
+        `Reservation with ID ${reservation_id} is already seated.`,
     });
   }
   next();
@@ -183,12 +196,14 @@ async function create(req, res) {
 async function update(req, res) {
   const { table_id } = res.locals.table;
   const { reservation_id } = req.body.data;
+  await tableService.updateStatus(reservation_id, "seated");
   const data = await tableService.update(Number(table_id), reservation_id);
   res.status(200).json({ data });
 }
 
 async function destroy(req, res) {
-  const { table_id } = res.locals.table;
+  const { table_id, reservation_id } = res.locals.table;
+  await tableService.updateStatus(reservation_id, "finished");
   const data = await tableService.clearTable(table_id);
   res.status(200).json({ data });
 }
