@@ -47,11 +47,13 @@ export default function ReservationForm() {
     const abortController = new AbortController();
     try {
       await createReservation(formData, abortController.signal);
-      history.push(`/dashboard?date=${formData.reservation_date}`);
-      setFormData({ ...initialFormState });
+      
     } catch (err) {
       setReservationError(err);
     }
+    setFormData({ ...initialFormState });
+    history.push(`/dashboard?date=${formData.reservation_date}`);
+    
     return () => abortController.abort();
   }
 
@@ -73,7 +75,7 @@ export default function ReservationForm() {
                 value={formData.first_name}
                 onChange={handleInputChange}
                 required
-                placeholder={"First Name"}
+                placeholder="First Name"
               />
             </div>
             <div className="form-group col">
@@ -86,7 +88,7 @@ export default function ReservationForm() {
                 value={formData.last_name}
                 onChange={handleInputChange}
                 required
-                placeholder={"Last Name"}
+                placeholder="Last Name"
               />
             </div>
           </div>
@@ -101,7 +103,7 @@ export default function ReservationForm() {
                 value={formData.mobile_number}
                 onChange={handleInputChange}
                 required
-                placeholder={"Mobile Number"}
+                placeholder="Mobile Number"
                 // pattern="\d[0-9]{3}-\d[0-9]{3}-\d[0-9]{4}"
               />
             </div>
