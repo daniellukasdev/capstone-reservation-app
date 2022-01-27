@@ -176,7 +176,13 @@ function validateUpdateStatus(req, res, next) {
 // List handler for reservation resources
 async function list(req, res) {
   const { date } = req.query;
-  const data = await reservationsService.list(date);
+  const { mobile_number } = req.query;
+  let data;
+  if (date) {
+    data = await reservationsService.list(date);
+  } else if (mobile_number) {
+    data = await reservationsService.search(mobile_number);
+  }
   res.status(200).json({ data });
 }
 
@@ -198,6 +204,7 @@ async function update(req, res) {
   const data = await reservationsService.updateStatus(reservation_id, status);
   res.status(200).json({ data });
 }
+
 
 module.exports = {
   list: [asyncErrorBoundary(list)],
