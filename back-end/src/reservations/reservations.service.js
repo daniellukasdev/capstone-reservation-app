@@ -57,4 +57,5 @@ module.exports = {
   read,
   create,
   updateStatus,
+  search,
 };
