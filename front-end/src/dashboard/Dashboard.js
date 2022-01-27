@@ -100,13 +100,18 @@ function Dashboard({ date }) {
         </Link>
       </div>
       <div>
-        <ReservationList reservations={reservations} />
         <ErrorAlert error={reservationsError} />
+        <ReservationList reservations={reservations} />
         {/* {JSON.stringify(reservations)} */}
       </div>
       <div>
-        <TableList tables={tables} setTables={setTables} setReservations={setReservations} date={date} />
         <ErrorAlert error={tablesError} />
+        <TableList
+          tables={tables}
+          setTables={setTables}
+          setReservations={setReservations}
+          date={date}
+        />
       </div>
     </main>
   );
