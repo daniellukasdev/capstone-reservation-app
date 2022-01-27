@@ -11,9 +11,10 @@ import React from "react";
 function ErrorAlert({ error }) {
   return (
     error && (
-      <li>{error.replace(/[_]/g, " ")}.</li>
+      <li>{error}.</li>
     )
   );
 }
 
 export default ErrorAlert;
+{/* <li>{error.replace(/[_]/g, " ")}.</li> */}
