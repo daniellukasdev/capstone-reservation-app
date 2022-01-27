@@ -43,7 +43,6 @@ function updateStatus(reservation_id, status) {
 
 module.exports = {
   list,
-  list,
   read,
   create,
   updateStatus,
