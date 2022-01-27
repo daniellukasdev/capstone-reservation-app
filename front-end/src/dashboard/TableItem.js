@@ -16,12 +16,12 @@ export default function TableItem({ table, setTables }) {
     return () => abortController.abort();
   }
 
-  function refreshTables() {
+  async function refreshTables() {
     const abortController = new AbortController();
-    // const refreshedTables = await listTables(abortController.signal);
-    // setTables(refreshedTables);
+    const refreshedTables = await listTables(abortController.signal);
+    setTables(refreshedTables);
     
-    listTables(abortController.signal).then(setTables);
+    // listTables(abortController.signal).then(setTables);
 
     return () => abortController.abort();
   }
@@ -38,9 +38,10 @@ export default function TableItem({ table, setTables }) {
       <td>
         {reservation_id && (
           <button data-table-id-finish={table.table_id}
-            onClick={(event) => {
+            onClick={async (event) => {
               event.preventDefault();
-              handleDelete(table_id).then(refreshTables);
+              await handleDelete(table_id);
+              await refreshTables();
             }}
             className="btn btn-outline-secondary"
           >
