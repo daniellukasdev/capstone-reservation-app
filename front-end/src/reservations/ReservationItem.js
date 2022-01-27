@@ -13,7 +13,6 @@ export default function ReservationItem({ reservation }) {
     status,
   } = reservation;
 
-  const isBooked = status === "booked";
   return (
     <tr key={reservation_id}>
       <td>{reservation_id}</td>
@@ -26,14 +25,14 @@ export default function ReservationItem({ reservation }) {
       <td>{people}</td>
       <td data-reservation-id-status={reservation_id}>{status}</td>
       <td>
-        {isBooked ? (
+        {status === "booked" && (
           <Link
             to={`/reservations/${reservation_id}/seat`}
             className="btn btn-secondary"
           >
             Seat
           </Link>
-        ) : null}
+        )}
       </td>
     </tr>
   );
