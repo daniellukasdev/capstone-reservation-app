@@ -8,12 +8,14 @@ export default function TableList({
   date,
 }) {
   const tableItems = tables.map((table) => (
-    <TableItem
+    <tr key={table.table_id}>
+      <TableItem
       table={table}
       setTables={setTables}
       setReservations={setReservations}
       date={date}
     />
+    </tr>
   ));
   return (
     <div>

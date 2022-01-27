@@ -3,7 +3,9 @@ import ReservationItem from "./ReservationItem";
 
 export default function ReservationList({ reservations }) {
   const tableItems = reservations.map((reservation) => (
-    <ReservationItem reservation={reservation} />
+    <tr key={reservation.reservation_id}>
+      <ReservationItem reservation={reservation} />
+    </tr>
   ));
   return (
     <div>
