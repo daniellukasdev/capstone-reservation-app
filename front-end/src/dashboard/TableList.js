@@ -1,9 +1,19 @@
 import React from "react";
 import TableItem from "./TableItem";
 
-export default function TableList({ tables, setTables }) {
+export default function TableList({
+  tables,
+  setTables,
+  setReservations,
+  date,
+}) {
   const tableItems = tables.map((table) => (
-    <TableItem table={table} setTables={setTables} />
+    <TableItem
+      table={table}
+      setTables={setTables}
+      setReservations={setReservations}
+      date={date}
+    />
   ));
   return (
     <div>
@@ -14,6 +24,7 @@ export default function TableList({ tables, setTables }) {
             <th>Table Name</th>
             <th>Capacity</th>
             <th>Availability</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>{tableItems}</tbody>
