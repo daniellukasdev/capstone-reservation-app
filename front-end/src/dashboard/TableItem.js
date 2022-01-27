@@ -1,28 +1,34 @@
 import React from "react";
-import { listTables, finishTable } from "../utils/api";
+import { listTables, finishTable, listReservations } from "../utils/api";
 
-export default function TableItem({ table, setTables }) {
+export default function TableItem({ table, setTables, setReservations, date }) {
   async function handleDelete(tableId) {
     const abortController = new AbortController();
     const confirmation = window.confirm(
       "Is this table ready to seat new guests? This cannot be undone."
     );
-
     if (confirmation) {
       return await finishTable(tableId, abortController.signal);
-      //   return await refreshTables();
     }
-
     return () => abortController.abort();
   }
 
+  // reloads the tables from the API
   async function refreshTables() {
     const abortController = new AbortController();
     const refreshedTables = await listTables(abortController.signal);
     setTables(refreshedTables);
-    
-    // listTables(abortController.signal).then(setTables);
+    return () => abortController.abort();
+  }
 
+  // reloads the reservations from the API
+  async function refreshReservations() {
+    const abortController = new AbortController();
+    const refreshedRes = await listReservations(
+      { date },
+      abortController.signal
+    );
+    setReservations(refreshedRes);
     return () => abortController.abort();
   }
 
@@ -37,11 +43,13 @@ export default function TableItem({ table, setTables }) {
       </td>
       <td>
         {reservation_id && (
-          <button data-table-id-finish={table.table_id}
+          <button
+            data-table-id-finish={table.table_id}
             onClick={async (event) => {
               event.preventDefault();
               await handleDelete(table_id);
               await refreshTables();
+              await refreshReservations();
             }}
             className="btn btn-outline-secondary"
           >
