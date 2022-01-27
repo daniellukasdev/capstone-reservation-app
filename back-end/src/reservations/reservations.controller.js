@@ -176,9 +176,7 @@ function validateUpdateStatus(req, res, next) {
 // List handler for reservation resources
 async function list(req, res) {
   const { date } = req.query;
-  console.log("from controller: ", date)
   const data = await reservationsService.list(date);
-  console.log("after service:", date)
   res.status(200).json({ data });
 }
 
