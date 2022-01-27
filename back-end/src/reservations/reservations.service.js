@@ -52,7 +52,8 @@ function updateStatus(reservation_id, status) {
     return knex("reservations")
         .where({ reservation_id })
         .update({ status })
-        .returning("*");
+        .returning("*")
+        .then((res) => res[0]);
 }
 
 
