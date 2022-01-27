@@ -56,6 +56,16 @@ function clearTable(table_id) {
         .returning("*");
 }
 
+// for the reservqtion with the given id, overrides the
+// status with the status param
+function updateStatus(reservation_id, status) {
+    return knex("reservations")
+        .where({ reservation_id })
+        .update({ status })
+        .returning("*")
+        .then((res) => res[0]);
+}
+
 
 module.exports = {
     list,
@@ -63,5 +73,6 @@ module.exports = {
     create,
     readReservation,
     update,
+    updateStatus,
     clearTable,
 }
