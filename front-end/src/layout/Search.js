@@ -7,6 +7,7 @@ export default function Search() {
   const [mobileNumber, setMobileNumber] = useState("");
   const [reservations, setReservations] = useState([]);
   const [searchError, setSearchError] = useState(null);
+  const [searched, setSearched] = useState(false);
 
   function handleInputChange({ target }) {
     setMobileNumber(target.value);
@@ -16,6 +17,7 @@ export default function Search() {
     event.preventDefault();
     const abortController = new AbortController();
     setSearchError(null);
+    setSearched(true);
     try {
       const matchingReservations = await searchMobileNumber(
         mobileNumber,
@@ -24,7 +26,6 @@ export default function Search() {
       setReservations(matchingReservations);
       setMobileNumber("");
     } catch (error) {
-      console.log("this is catch");
       setSearchError(error);
     }
     return () => abortController.abort();
@@ -67,11 +68,13 @@ export default function Search() {
           </div>
           <div>
             <div className="col">
-              {reservations?.length ? (
-                <ReservationList reservations={reservations} />
-              ) : (
-                <h5>No reservations found.</h5>
-              )}
+              {!reservations?.length &&
+                searched && (
+                <h5>No reservations found.</h5>)}
+            </div>
+            <div>
+              {reservations?.length > 0 &&
+                searched && (<ReservationList reservations={reservations} />)}
             </div>
           </div>
         </div>
