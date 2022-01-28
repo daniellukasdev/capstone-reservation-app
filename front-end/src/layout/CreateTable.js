@@ -1,5 +1,5 @@
 import React from "react";
-import TableForm from "../table/TableForm";
+import TableForm from "../forms/TableForm";
 
 export default function CreateTable() {
     return (

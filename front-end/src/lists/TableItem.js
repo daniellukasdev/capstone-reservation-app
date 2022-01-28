@@ -33,6 +33,7 @@ export default function TableItem({ table, setTables, setReservations, date }) {
   }
 
   const { table_id, table_name, capacity, reservation_id } = table;
+
   return (
     <>
       <td>{table_id}</td>

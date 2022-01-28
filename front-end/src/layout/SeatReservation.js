@@ -9,10 +9,9 @@ export default function SeatReservation() {
   const { reservationId } = useParams();
   const history = useHistory();
 
-  const [ tables, setTables ] = useState([]);
-  const [ tablesError, setTablesError ] = useState(null);
-  const [ selectedTable, setSelectedTable ] = useState(0);
-  
+  const [tables, setTables] = useState([]);
+  const [tablesError, setTablesError] = useState(null);
+  const [selectedTable, setSelectedTable] = useState(0);
 
   // Load tables from API
   useEffect(() => {
@@ -31,27 +30,26 @@ export default function SeatReservation() {
   }, []);
 
   const handleChange = ({ target }) => {
-      setSelectedTable(target.value);
-  }
+    setSelectedTable(target.value);
+  };
   async function handleSubmit(event) {
-      event.preventDefault();
-      const abortController = new AbortController();
-      try {
-          // send PUT request to API with reservationId and selected table
-        await updateTable(selectedTable, reservationId, abortController.signal)
-        history.push("/dashboard");
-      } catch (err) {
-          setTablesError(err);
-      }
-      return () => abortController.abort();
+    event.preventDefault();
+    const abortController = new AbortController();
+    try {
+      // send PUT request to API with reservationId and selected table
+      await updateTable(selectedTable, reservationId, abortController.signal);
+      history.push("/dashboard");
+    } catch (err) {
+      setTablesError(err);
+    }
+    return () => abortController.abort();
   }
 
   // Itertate through tables to create select option for each
-  const selectOptions = tables.map((table) => (
-    <option
-      key={table.table_id}
-      value={table.table_id}
-    >{table.table_name} - {table.capacity}</option>
+  const selectOptions = tables.map((table, index) => (
+    <option key={index} value={table.table_id}>
+      {table.table_name} - {table.capacity}
+    </option>
   ));
 
   return (
