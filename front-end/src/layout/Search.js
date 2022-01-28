@@ -2,6 +2,8 @@ import React from "react";
 
 export default function Search() {
     return (
-        <div></div>
+        <div>
+            <h1>Search Reservations</h1>
+        </div>
     );
 }
