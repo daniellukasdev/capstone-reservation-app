@@ -7,8 +7,8 @@ export default function TableList({
   setReservations,
   date,
 }) {
-  const tableItems = tables.map((table) => (
-    <tr key={table.table_id}>
+  const tableItems = tables.map((table, index) => (
+    <tr key={index}>
       <TableItem
       table={table}
       setTables={setTables}
