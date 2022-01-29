@@ -9,7 +9,7 @@ export default function ReservationList({ reservations }) {
   ));
   return (
     <div>
-      <table className="table mt-3">
+      <table className="table table-sm no-wrap mt-3">
         <thead>
           <tr>
             <th>#</th>

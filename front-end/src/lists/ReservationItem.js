@@ -26,12 +26,31 @@ export default function ReservationItem({ reservation }) {
       <td data-reservation-id-status={reservation_id}>{status}</td>
       <td>
         {status === "booked" && (
-          <Link
-            to={`/reservations/${reservation_id}/seat`}
-            className="btn btn-secondary"
-          >
-            Seat
-          </Link>
+          <>
+            <Link
+              to={`/reservations/${reservation_id}/seat`}
+              className="btn btn-sm btn-secondary m-1"
+            >
+              Seat
+            </Link>
+            <Link
+              to={`/reservations/${reservation_id}/edit`}
+              className="btn btn-sm btn-secondary m-1"
+            >
+              Edit
+            </Link>
+            <button
+              type="button"
+              className="btn btn-sm btn-danger m-1"
+              data-reservation-id-cancel={reservation_id}
+              onClick={async (event) => {
+                event.preventDefault();
+                // await
+              }}
+            >
+              Cancel
+            </button>
+          </>
         )}
       </td>
     </>
