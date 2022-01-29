@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { updateReservationStatus } from "../utils/api";
 
-export default function ReservationItem({ reservation }) {
+export default function ReservationItem({ reservation, refresh }) {
   const {
     reservation_id,
     first_name,
@@ -12,6 +13,21 @@ export default function ReservationItem({ reservation }) {
     people,
     status,
   } = reservation;
+
+  async function handleCancel(reservationId) {
+    const abortController = new AbortController();
+    const confirmation = window.confirm(
+      "Do you want to cancel this reservation? /nThis cannot be undone."
+    );
+    if (confirmation) {
+      return await updateReservationStatus(
+        reservationId,
+        "cancelled",
+        abortController.signal
+      );
+    }
+    return () => abortController.abort();
+  }
 
   return (
     <>
@@ -45,7 +61,8 @@ export default function ReservationItem({ reservation }) {
               data-reservation-id-cancel={reservation_id}
               onClick={async (event) => {
                 event.preventDefault();
-                // await
+                await handleCancel(reservation_id);
+                await refresh();
               }}
             >
               Cancel

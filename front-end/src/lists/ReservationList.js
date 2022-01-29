@@ -1,10 +1,29 @@
 import React from "react";
 import ReservationItem from "./ReservationItem";
+import { listReservations } from "../utils/api";
 
-export default function ReservationList({ reservations }) {
+export default function ReservationList({
+  reservations,
+  setReservations,
+  date,
+}) {
+  // reloads the reservations from the API
+  async function refreshReservations() {
+    const abortController = new AbortController();
+    const refreshedRes = await listReservations(
+      { date },
+      abortController.signal
+    );
+    setReservations(refreshedRes);
+    return () => abortController.abort();
+  }
+
   const tableItems = reservations.map((reservation, index) => (
     <tr key={index}>
-      <ReservationItem reservation={reservation} />
+      <ReservationItem
+        reservation={reservation}
+        refresh={refreshReservations}
+      />
     </tr>
   ));
   return (
