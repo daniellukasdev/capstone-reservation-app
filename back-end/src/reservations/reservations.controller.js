@@ -198,7 +198,7 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
-async function update(req, res) {
+async function updateStatus(req, res) {
   const { reservation_id } = res.locals.reservation;
   const { status } = req.body.data;
   const data = await reservationsService.updateStatus(reservation_id, status);
@@ -217,9 +217,9 @@ module.exports = {
     validateCreateStatus,
     asyncErrorBoundary(create),
   ],
-  update: [
+  updateStatus: [
     asyncErrorBoundary(reservationExists),
     validateUpdateStatus,
-    asyncErrorBoundary(update),
+    asyncErrorBoundary(updateStatus),
   ],
 };
