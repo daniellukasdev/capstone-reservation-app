@@ -27,7 +27,7 @@ function Dashboard({ date }) {
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
-    
+
     setTablesError(null);
     listTables(abortController.signal).then(setTables).catch(setTablesError);
 
@@ -101,7 +101,11 @@ function Dashboard({ date }) {
       </div>
       <div>
         <ErrorAlert error={reservationsError} />
-        <ReservationList reservations={reservations} />
+        <ReservationList
+          reservations={reservations}
+          setReservations={setReservations}
+          date={date}
+        />
         {/* {JSON.stringify(reservations)} */}
       </div>
       <div>
