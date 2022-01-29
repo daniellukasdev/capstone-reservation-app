@@ -41,8 +41,9 @@ function checkIfTooLate(reservationTime) {
 async function reservationExists(req, res, next) {
   const { reservation_id } = req.params;
   const reservation = await reservationsService.read(reservation_id);
-
+  console.log("reservation exists")
   if (reservation) {
+    console.log("the reservation exists!")
     res.locals.reservation = reservation;
     return next();
   }
@@ -153,7 +154,7 @@ function validateCreateStatus(req, res, next) {
 
 function validateUpdateStatus(req, res, next) {
   const { reservation_id, status } = res.locals.reservation;
-  
+
   if (req.body.data.status === "unknown") {
     return next({
       status: 400,
@@ -205,6 +206,16 @@ async function updateStatus(req, res) {
   res.status(200).json({ data });
 }
 
+async function update(req, res) {
+  // console.log("req.body.data: ", req.body.data)
+  // const { reservation_id } = res.locals.reservation;
+  // const updatedReservation = {
+  //   ...req.body.data,
+  //   reservation_id,
+  // };
+  const data = await reservationsService.update(req.body.data);
+  res.status(200).json({ data });
+}
 
 module.exports = {
   list: [asyncErrorBoundary(list)],
@@ -221,5 +232,14 @@ module.exports = {
     asyncErrorBoundary(reservationExists),
     validateUpdateStatus,
     asyncErrorBoundary(updateStatus),
+  ],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    hasRequiredProperties,
+    isValidDate,
+    isValidTime,
+    isValidNumber,
+    validateCreateStatus,
+    asyncErrorBoundary(update),
   ],
 };
