@@ -36,7 +36,7 @@ export default function ReservationItem({ reservation, refresh }) {
         {last_name}, {first_name}
       </td>
       <td>{mobile_number}</td>
-      <td>{reservation_date}</td>
+      <td>{reservation_date.slice(0, 10)}</td>
       <td>{reservation_time}</td>
       <td>{people}</td>
       <td data-reservation-id-status={reservation_id}>{status}</td>
