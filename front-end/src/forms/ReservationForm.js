@@ -2,11 +2,23 @@ import React from "react";
 import CancelBtn from "../buttons/CancelBtn";
 import SubmitBtn from "../buttons/SubmitBtn";
 
-export default function ReservationForm({
-  handleInputChange,
-  handleSubmit,
-  formData,
-}) {
+export default function ReservationForm({ handleSubmit, formData, setFormData }) {
+  /**
+   * function to handle input changes
+   */
+  function handleInputChange({ target : { id, value } }) {
+    if (id === "people") {
+      setFormData((prevState) => ({
+        ...prevState,
+        [id]: Number(value),
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [id]: value,
+      }));
+    }
+  }
   return (
     <div>
       <form onSubmit={handleSubmit}>

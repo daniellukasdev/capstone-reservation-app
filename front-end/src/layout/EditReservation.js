@@ -5,6 +5,7 @@ import ReservationForm from "../forms/ReservationForm";
 import ErrorList from "../layout/ErrorList";
 
 export default function CreateReservation() {
+  const history = useHistory();
   // initial values of input fields
   const initialFormState = {
     first_name: "",
@@ -21,24 +22,24 @@ export default function CreateReservation() {
   const [formData, setFormData] = useState({ ...initialFormState });
   const [reservationError, setReservationError] = useState(null);
 
-  const history = useHistory();
+  
 
   /**
    * functions to handle input changes
    */
-  const handleInputChange = ({ target }) => {
-    if (target.id === "people") {
-      setFormData({
-        ...formData,
-        [target.id]: Number(target.value),
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [target.id]: target.value,
-      });
-    }
-  };
+  // const handleInputChange = ({ target }) => {
+  //   if (target.id === "people") {
+  //     setFormData({
+  //       ...formData,
+  //       [target.id]: Number(target.value),
+  //     });
+  //   } else {
+  //     setFormData({
+  //       ...formData,
+  //       [target.id]: target.value,
+  //     });
+  //   }
+  // };
 
   // sends POST request to api with formData
   async function handleSubmit(event) {
@@ -61,9 +62,9 @@ export default function CreateReservation() {
         <ErrorList error={reservationError} />
       </div>
       <ReservationForm
-        handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
         formData={formData}
+        setFormData={setFormData}
       />
     </div>
   );
