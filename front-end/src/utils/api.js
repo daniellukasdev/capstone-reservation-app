@@ -115,6 +115,24 @@ export async function searchMobileNumber(mobileNumber, signal) {
   return await fetchJson(url, { headers, signal }, []);
 }
 
+//
+export async function readReservation(reservationId, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservationId}`);
+  return await fetchJson(url, { headers, signal }, []);
+}
+
+//
+export async function updateReservation(reservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation.reservation_id}`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { reservation } }),
+    signal,
+  };
+  return await fetchJson(url, options, {});
+}
+
 
 /******************************************************************
  * ##########################   Tables   ##########################
