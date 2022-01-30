@@ -41,9 +41,7 @@ function checkIfTooLate(reservationTime) {
 async function reservationExists(req, res, next) {
   const { reservation_id } = req.params;
   const reservation = await reservationsService.read(reservation_id);
-  console.log("reservation exists")
   if (reservation) {
-    console.log("the reservation exists!")
     res.locals.reservation = reservation;
     return next();
   }
