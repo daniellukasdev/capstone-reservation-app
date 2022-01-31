@@ -8,10 +8,10 @@ import React from "react";
  *  a bootstrap danger alert that contains the message string.
  */
 
-function ErrorAlert({ error, key }) {
+function ErrorAlert({ error }) {
   return (
     error && (
-      <li key={key}>{error.replace(/[_]/g, " ")}.</li>
+      <>{error.replace(/[_]/g, " ")}.</>
     )
   );
 }

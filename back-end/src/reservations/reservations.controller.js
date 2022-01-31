@@ -72,7 +72,7 @@ function isValidDate(req, res, next) {
 
   if (!reservation_date.match(dateFormat)) {
     errors.push(
-      "The reservation_date must be a valid date format 'YYYY-MM-DD'"
+      "The reservation_date must be a valid date format 'YYYY-MM-DD.'"
     );
   }
   if (!isOpen) {

@@ -12,7 +12,11 @@ import ErrorAlert from "./ErrorAlert";
 export default function ErrorList({ error }) {
     const errorMessages = error?.message.split(".");
     const errorItems = errorMessages?.map((errMsg, index) => (
-    <ErrorAlert error={errMsg} key={index} />
+    errMsg && (
+        <li key={index}>
+        <ErrorAlert error={errMsg} />
+    </li>
+    )
     ));
     return (
         error && (
