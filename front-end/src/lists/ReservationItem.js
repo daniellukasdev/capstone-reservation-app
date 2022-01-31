@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { updateReservationStatus } from "../utils/api";
 
 export default function ReservationItem({ reservation, refresh }) {
+  // gets reservation properties through destructuring
   const {
     reservation_id,
     first_name,
@@ -14,6 +15,11 @@ export default function ReservationItem({ reservation, refresh }) {
     status,
   } = reservation;
 
+  /** 
+   * If cancel button is pressed, displays a confirmation pop up
+   * with message and option to abort. If confirmed, the reservation 
+   * with the given ID gets a status of 'cancelled'
+  */
   async function handleCancel(reservationId) {
     const abortController = new AbortController();
     const confirmation = window.confirm(
@@ -29,6 +35,9 @@ export default function ReservationItem({ reservation, refresh }) {
     return () => abortController.abort();
   }
 
+  /** 
+   * Displays all reservation information in a table row
+  */
   return (
     <>
       <td>{reservation_id}</td>

@@ -2,6 +2,12 @@ import React from "react";
 import CancelBtn from "../buttons/CancelBtn";
 import SubmitBtn from "../buttons/SubmitBtn";
 
+/**
+ * Gets submit handler from parent component.
+ * @returns {JSX.Element}
+ * Displays either blank or populated input fields
+ * depending on parent component
+ */
 export default function ReservationForm({
   handleSubmit,
   reservation,

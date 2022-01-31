@@ -7,6 +7,10 @@ export default function TableList({
   setReservations,
   date,
 }) {
+  /** 
+   * iterates through the tables to create a 
+   * TableItem component for each one
+  */
   const tableItems = tables.map((table, index) => (
     <tr key={index}>
       <TableItem
@@ -17,6 +21,9 @@ export default function TableList({
     />
     </tr>
   ));
+  /** 
+   * Displays a table of all tables and table information
+  */
   return (
     <div>
       <table className="table table-bordered table-striped no-wrap mt-3">

@@ -13,14 +13,18 @@ import TableList from "../lists/TableList";
  * @returns {JSX.Element}
  */
 function Dashboard({ date }) {
+  // sets states
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
 
   useEffect(loadDashboard, [date]);
-  // useEffect(loadTables, []);
 
+  /**
+   * Makes GET request to API for tables and reservations
+   * sets states for both or  
+   */
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
@@ -33,48 +37,6 @@ function Dashboard({ date }) {
 
     return () => abortController.abort();
   }
-
-  // function loadTables() {
-  //   const abortController = new AbortController();
-  //   setTablesError(null);
-  //   listTables(abortController.signal).then(setTables).catch(setTablesError);
-
-  //   return () => abortController.abort();
-  // }
-
-  // Load tables from API
-  // useEffect(() => {
-  //   const abortController = new AbortController();
-  //   async function loadTables() {
-  //     try {
-  //       const tablesFromAPI = await listTables(abortController.signal);
-  //       setTables(tablesFromAPI);
-  //     } catch (err) {
-  //       setTablesError(err);
-  //     }
-  //   }
-  //   loadTables();
-
-  //   return () => abortController.abort();
-  // }, []);
-
-  // Load dashboard
-  // useEffect(() => {
-  //   const abortController = new AbortController();
-  //   async function loadDashboard() {
-  //     try {
-  //       const reservationsFromAPI = await listReservations({ date });
-  //       setReservations(reservationsFromAPI);
-  //       const tablesFromAPI = await listTables(abortController.signal);
-  //       setTables(tablesFromAPI);
-  //     } catch (err) {
-  //       setTablesError(err);
-  //     }
-  //   }
-  //   loadDashboard();
-
-  //   return () => abortController.abort();
-  // }, [date]);
 
   return (
     <main className="col">

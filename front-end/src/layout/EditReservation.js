@@ -25,7 +25,9 @@ export default function EditReservation() {
   const [reservationError, setReservationError] = useState(null);
 
   /**
-   * Gets reservation from the API
+   * Gets reservation from the API with the reservation ID
+   * from the url params, then sets the reservation state with 
+   * the resolved promise from the API call
    */
   useEffect(() => {
     const abortController = new AbortController();
@@ -59,6 +61,11 @@ export default function EditReservation() {
 
     return () => abortController.abort();
   }
+
+  /** 
+   * displays the reservation form with the reservation information,
+   * or diplays error message if necessary
+  */
   return (
     <div className="col">
       <div className="d-flex justify-content-center">

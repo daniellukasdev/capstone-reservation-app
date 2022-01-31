@@ -37,6 +37,9 @@ export default function CreateReservation() {
 
     return () => abortController.abort();
   }
+  /** 
+   * displays the reservation form or diplays error message if necessary
+  */
   return (
     <div className="col">
       <div className="d-flex justify-content-center">

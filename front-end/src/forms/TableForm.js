@@ -15,8 +15,6 @@ export default function TableForm({ error, setError }) {
    * state management of form input fields and error
    */
    const [formData, setFormData] = useState({ ...initialFormState });
-   
-
    const history = useHistory();
 
    /**
@@ -36,7 +34,11 @@ export default function TableForm({ error, setError }) {
     }
   };
 
-  // sends POST request to api with formData
+  /**
+   * sends POST request to api with formData,
+   * sets state with returned promise,
+   * sends user to the dashboard 
+   */
   async function handleSubmit(event) {
     event.preventDefault();
     const abortController = new AbortController();

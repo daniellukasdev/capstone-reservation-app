@@ -7,7 +7,10 @@ export default function ReservationList({
   setReservations,
   date,
 }) {
-  // reloads the reservations from the API
+  /** 
+   * reloads the reservations by making a GET request
+   * to the API
+  */
   async function refreshReservations() {
     const abortController = new AbortController();
     const refreshedRes = await listReservations(
@@ -18,6 +21,10 @@ export default function ReservationList({
     return () => abortController.abort();
   }
 
+  /** 
+   * iterates through the reservations to create a 
+   * ReservationItem component for each one
+  */
   const tableItems = reservations.map((reservation, index) => (
     <tr key={index}>
       <ReservationItem
@@ -26,6 +33,10 @@ export default function ReservationList({
       />
     </tr>
   ));
+
+  /** 
+   * Displays a table of all reservations and reservation information
+  */
   return (
     <div>
       <table className="table table-sm table-bordered table-striped no-wrap mt-3">
