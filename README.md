@@ -67,7 +67,7 @@ The development process showcases the following practices:
  ### Reservation JSON Example
  ```json
 "data": {
-        "reservation_id": 08,
+        "reservation_id": 8,
         "first_name": "Dennis",
         "last_name": "Reynolds",
         "mobile_number": "123-456-7890",
@@ -87,7 +87,7 @@ The development process showcases the following practices:
     "table_id": 2,
     "table_name": "Paddy's Table",
     "capacity": 5,
-    "reservation_id": 08
+    "reservation_id": 8
 }
 ```
 
