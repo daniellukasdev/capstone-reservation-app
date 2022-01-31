@@ -6,7 +6,10 @@ export default function CancelBtn({ goBack = false }) {
   return (
     <button
       className="btn btn-secondary"
-      onClick={() => (goBack ? history.goBack() : history.push("/"))}
+      type="cancel"
+      onClick={(event) => {
+        event.preventDefault();
+        (goBack ? history.goBack() : history.push("/dashboard"))}}
     >
       <span className="oi oi-x mr-1"></span>
       Cancel
