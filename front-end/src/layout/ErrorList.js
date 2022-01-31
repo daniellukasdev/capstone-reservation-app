@@ -11,8 +11,8 @@ import ErrorAlert from "./ErrorAlert";
  **/
 export default function ErrorList({ error }) {
     const errorMessages = error?.message.split(".");
-    const errorItems = errorMessages?.map((errMsg) => (
-    <ErrorAlert error={errMsg} />
+    const errorItems = errorMessages?.map((errMsg, index) => (
+    <ErrorAlert error={errMsg} key={index} />
     ));
     return (
         error && (
