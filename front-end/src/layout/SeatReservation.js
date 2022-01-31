@@ -65,7 +65,7 @@ export default function SeatReservation() {
           <ErrorList error={tablesError} />
         </div>
       </div>
-      <div>
+      <div className="d-flex justify-content-center">
         <SeatForm
           selectedTable={selectedTable}
           selectOptions={selectOptions}

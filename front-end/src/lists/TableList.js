@@ -19,14 +19,14 @@ export default function TableList({
   ));
   return (
     <div>
-      <table className="table no-wrap mt-3">
-        <thead>
+      <table className="table table-bordered table-striped no-wrap mt-3">
+        <thead className="thead-dark">
           <tr>
             <th>#</th>
-            <th>Table Name</th>
-            <th>Capacity</th>
-            <th>Availability</th>
-            <th></th>
+            <th>TABLE NAME</th>
+            <th>CAPACITY</th>
+            <th>AVAILABILITY</th>
+            <th>OPTIONS</th>
           </tr>
         </thead>
         <tbody>{tableItems}</tbody>

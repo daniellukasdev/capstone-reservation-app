@@ -60,16 +60,20 @@ export default function EditReservation() {
     return () => abortController.abort();
   }
   return (
-    <div>
-      <h1>Edit Reservation</h1>
-      <div>
+    <div className="col">
+      <div className="d-flex justify-content-center">
+        <h1>Edit Reservation</h1>
+      </div>
+      <div className="d-flex justify-content-center">
         <ErrorList error={reservationError} />
       </div>
-      <ReservationForm
-        handleSubmit={handleSubmit}
-        reservation={reservation}
-        setReservation={setReservation}
-      />
+      <div className="d-flex justify-content-center">
+        <ReservationForm
+          handleSubmit={handleSubmit}
+          reservation={reservation}
+          setReservation={setReservation}
+        />
+      </div>
     </div>
   );
 }

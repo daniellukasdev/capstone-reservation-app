@@ -28,17 +28,17 @@ export default function ReservationList({
   ));
   return (
     <div>
-      <table className="table table-sm no-wrap mt-3">
-        <thead>
+      <table className="table table-sm table-bordered table-striped no-wrap mt-3">
+        <thead className="thead-dark">
           <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>People</th>
-            <th>Status</th>
-            <th></th>
+            <th>NAME</th>
+            <th>PHONE</th>
+            <th>DATE</th>
+            <th>TIME</th>
+            <th>PEOPLE</th>
+            <th>STATUS</th>
+            <th>OPTIONS</th>
           </tr>
         </thead>
         <tbody>{tableItems}</tbody>

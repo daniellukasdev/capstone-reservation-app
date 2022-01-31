@@ -3,9 +3,8 @@ import { useHistory } from "react-router-dom";
 import { createTable } from "../utils/api";
 import CancelBtn from "../buttons/CancelBtn";
 import SubmitBtn from "../buttons/SubmitBtn";
-import ErrorList from "../layout/ErrorList";
 
-export default function TableForm() {
+export default function TableForm({ error, setError }) {
   // initial values of input fields
   const initialFormState = {
     "table_name": "",
@@ -16,7 +15,7 @@ export default function TableForm() {
    * state management of form input fields and error
    */
    const [formData, setFormData] = useState({ ...initialFormState });
-   const [error, setError] = useState(null);
+   
 
    const history = useHistory();
 
@@ -53,9 +52,6 @@ export default function TableForm() {
 
   return (
     <div>
-      <div>
-        <ErrorList error={error} />
-      </div>
       <form onSubmit={handleSubmit}>
         <fieldset>
           <div className="row">
@@ -72,6 +68,9 @@ export default function TableForm() {
                 placeholder={"Table Name"}
                 minLength={2}
               />
+              <div className="d-flex justify-content-end mt-4">
+                <CancelBtn goBack={true} />
+              </div>
             </div>
             <div className="form-group col">
               <label htmlFor="capacity">Capacity</label>
@@ -85,14 +84,7 @@ export default function TableForm() {
                 required
                 min={1}
               />
-            </div>
-          </div>
-          <div className="col">
-            <div className="row">
-              <div className="mr-1">
-                <CancelBtn goBack={true} />
-              </div>
-              <div className="ml-1">
+              <div className="mt-4">
                 <SubmitBtn />
               </div>
             </div>

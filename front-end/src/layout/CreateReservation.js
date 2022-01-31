@@ -18,11 +18,10 @@ export default function CreateReservation() {
   /**
    * state management of form input fields and error
    */
-   const [reservation, setReservation] = useState({ ...initialFormState });
-   const [reservationError, setReservationError] = useState(null);
+  const [reservation, setReservation] = useState({ ...initialFormState });
+  const [reservationError, setReservationError] = useState(null);
 
   const history = useHistory();
-
 
   // sends POST request to api with reservation
   async function handleSubmit(event) {
@@ -39,16 +38,20 @@ export default function CreateReservation() {
     return () => abortController.abort();
   }
   return (
-    <div>
-      <h1>Create Reservation</h1>
-      <div>
+    <div className="col">
+      <div className="d-flex justify-content-center">
+        <h1>Create Reservation</h1>
+      </div>
+      <div className="d-flex justify-content-center">
         <ErrorList error={reservationError} />
       </div>
-      <ReservationForm
-        handleSubmit={handleSubmit}
-        reservation={reservation}
-        setReservation={setReservation}
-      />
+      <div className="d-flex justify-content-center">
+        <ReservationForm
+          handleSubmit={handleSubmit}
+          reservation={reservation}
+          setReservation={setReservation}
+        />
+      </div>
     </div>
   );
 }

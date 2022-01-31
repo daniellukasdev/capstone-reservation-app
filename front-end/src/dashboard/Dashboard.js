@@ -77,27 +77,36 @@ function Dashboard({ date }) {
   // }, [date]);
 
   return (
-    <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">{`Reservations for ${date}`}</h4>
+    <main className="col">
+      <div className="d-flex justify-content-center">
+        <h1>Dashboard</h1>
       </div>
-      <div className="btn-group mb-2" role={"group"}>
-        <Link
-          to={`/dashboard?date=${previous(date)}`}
-          className="btn btn-secondary"
-        >
-          <span className="oi oi-chevron-left mr-1"></span>Previous
-        </Link>
-        <Link to={`/dashboard?date=${today()}`} className="btn btn-secondary">
-          <span className="oi oi-left"></span>Today
-        </Link>
-        <Link
-          to={`/dashboard?date=${next(date)}`}
-          className="btn btn-secondary"
-        >
-          Next<span className="oi oi-chevron-right ml-1"></span>
-        </Link>
+      <div className="">
+        <div className="d-flex justify-content-center d-md-flex mb-3">
+          <h4 className="mb-0">{`Reservations for ${date}`}</h4>
+        </div>
+        <div className="">
+          <div className="btn-group btn-group-lg d-flex justify-content-center mb-2" role={"group"}>
+            <Link
+              to={`/dashboard?date=${previous(date)}`}
+              className="btn btn-secondary"
+            >
+              <span className="oi oi-chevron-left mr-4"></span>Previous
+            </Link>
+            <Link
+              to={`/dashboard?date=${today()}`}
+              className="btn btn-secondary"
+            >
+              <span className="oi oi-left"></span>Today
+            </Link>
+            <Link
+              to={`/dashboard?date=${next(date)}`}
+              className="btn btn-secondary"
+            >
+              Next<span className="oi oi-chevron-right ml-4"></span>
+            </Link>
+          </div>
+        </div>
       </div>
       <div>
         <ErrorAlert error={reservationsError} />
