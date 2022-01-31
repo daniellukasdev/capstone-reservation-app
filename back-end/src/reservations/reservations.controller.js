@@ -41,7 +41,6 @@ function checkIfTooLate(reservationTime) {
 async function reservationExists(req, res, next) {
   const { reservation_id } = req.params;
   const reservation = await reservationsService.read(reservation_id);
-
   if (reservation) {
     res.locals.reservation = reservation;
     return next();
@@ -73,7 +72,7 @@ function isValidDate(req, res, next) {
 
   if (!reservation_date.match(dateFormat)) {
     errors.push(
-      "The reservation_date must be a valid date format 'YYYY-MM-DD'"
+      "The reservation_date must be a valid date format 'YYYY-MM-DD.'"
     );
   }
   if (!isOpen) {
@@ -153,7 +152,7 @@ function validateCreateStatus(req, res, next) {
 
 function validateUpdateStatus(req, res, next) {
   const { reservation_id, status } = res.locals.reservation;
-  
+
   if (req.body.data.status === "unknown") {
     return next({
       status: 400,
@@ -198,13 +197,17 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
-async function update(req, res) {
+async function updateStatus(req, res) {
   const { reservation_id } = res.locals.reservation;
   const { status } = req.body.data;
   const data = await reservationsService.updateStatus(reservation_id, status);
   res.status(200).json({ data });
 }
 
+async function update(req, res) {
+  const data = await reservationsService.update(req.body.data);
+  res.status(200).json({ data });
+}
 
 module.exports = {
   list: [asyncErrorBoundary(list)],
@@ -217,9 +220,18 @@ module.exports = {
     validateCreateStatus,
     asyncErrorBoundary(create),
   ],
-  update: [
+  updateStatus: [
     asyncErrorBoundary(reservationExists),
     validateUpdateStatus,
+    asyncErrorBoundary(updateStatus),
+  ],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    hasRequiredProperties,
+    isValidDate,
+    isValidTime,
+    isValidNumber,
+    validateCreateStatus,
     asyncErrorBoundary(update),
   ],
 };

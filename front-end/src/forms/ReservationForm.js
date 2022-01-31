@@ -1,67 +1,36 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { createReservation } from "../utils/api";
+import React from "react";
 import CancelBtn from "../buttons/CancelBtn";
 import SubmitBtn from "../buttons/SubmitBtn";
-import ErrorList from "../layout/ErrorList";
 
-export default function ReservationForm() {
-  // initial values of input fields
-  const initialFormState = {
-    first_name: "",
-    last_name: "",
-    mobile_number: "",
-    reservation_date: "",
-    reservation_time: "",
-    people: "",
-  };
-
+/**
+ * Gets submit handler from parent component.
+ * @returns {JSX.Element}
+ * Displays either blank or populated input fields
+ * depending on parent component
+ */
+export default function ReservationForm({
+  handleSubmit,
+  reservation,
+  setReservation,
+}) {
   /**
-   * state management of form input fields and error
+   * function to handle input changes
    */
-  const [formData, setFormData] = useState({ ...initialFormState });
-  const [reservationError, setReservationError] = useState(null);
-
-  const history = useHistory();
-
-  /**
-   * functions to handle input changes
-   */
-  const handleInputChange = ({ target }) => {
-    if (target.id === "people") {
-      setFormData({
-        ...formData,
-        [target.id]: Number(target.value),
+  function handleInputChange({ target: { id, value } }) {
+    if (id === "people") {
+      setReservation({
+        ...reservation,
+        [id]: Number(value),
       });
     } else {
-      setFormData({
-        ...formData,
-        [target.id]: target.value,
+      setReservation({
+        ...reservation,
+        [id]: value,
       });
     }
-  };
-
-  // sends POST request to api with formData
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const abortController = new AbortController();
-    try {
-      await createReservation(formData, abortController.signal);
-      setFormData({ ...initialFormState });
-      history.push(`/dashboard?date=${formData.reservation_date}`);
-    } catch (err) {
-      setReservationError(err);
-    }
-    
-    
-    return () => abortController.abort();
   }
-
   return (
     <div>
-      <div>
-        <ErrorList error={reservationError} />
-      </div>
       <form onSubmit={handleSubmit}>
         <fieldset>
           <div className="row">
@@ -72,7 +41,7 @@ export default function ReservationForm() {
                 className="form-control"
                 id="first_name"
                 name="first_name"
-                value={formData.first_name}
+                value={reservation.first_name}
                 onChange={handleInputChange}
                 required
                 placeholder="First Name"
@@ -85,7 +54,7 @@ export default function ReservationForm() {
                 className="form-control"
                 id="last_name"
                 name="last_name"
-                value={formData.last_name}
+                value={reservation.last_name}
                 onChange={handleInputChange}
                 required
                 placeholder="Last Name"
@@ -100,11 +69,10 @@ export default function ReservationForm() {
                 className="form-control"
                 id="mobile_number"
                 name="mobile_number"
-                value={formData.mobile_number}
+                value={reservation.mobile_number}
                 onChange={handleInputChange}
                 required
                 placeholder="Mobile Number"
-                // pattern="\d[0-9]{3}-\d[0-9]{3}-\d[0-9]{4}"
               />
             </div>
             <div className="form-group col">
@@ -114,7 +82,7 @@ export default function ReservationForm() {
                 className="form-control"
                 id="reservation_date"
                 name="reservation_date"
-                value={formData.reservation_date}
+                value={reservation.reservation_date}
                 onChange={handleInputChange}
                 required
                 placeholder={"YYYY-MM-DD"}
@@ -130,12 +98,15 @@ export default function ReservationForm() {
                 className="form-control"
                 id="reservation_time"
                 name="reservation_time"
-                value={formData.reservation_time}
+                value={reservation.reservation_time}
                 onChange={handleInputChange}
                 required
                 placeholder="HH:MM"
                 pattern="[0-9]{2}:[0-9]{2}"
               />
+              <div className="d-flex justify-content-end mt-4">
+                <CancelBtn goack={false} />
+              </div>
             </div>
             <div className="form-group col">
               <label htmlFor="people">Number of People</label>
@@ -145,23 +116,17 @@ export default function ReservationForm() {
                 id="people"
                 name="people"
                 placeholder="Number of people attending"
-                value={formData.people}
+                value={reservation.people}
                 onChange={handleInputChange}
                 required
                 min={1}
               />
-            </div>
-          </div>
-          <div className="col">
-            <div className="row">
-              <div className="mr-1">
-                <CancelBtn />
-              </div>
-              <div className="ml-1">
+              <div className="mt-4">
                 <SubmitBtn />
               </div>
             </div>
           </div>
+
         </fieldset>
       </form>
     </div>

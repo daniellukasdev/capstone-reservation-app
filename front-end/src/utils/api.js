@@ -97,10 +97,72 @@ export async function createReservation(reservation, signal) {
   return await fetchJson(url, options, {});
 }
 
-// 
+/**
+ * Updates the status proptery of reservation with 
+ * the given ID
+ * @param {string} reservationId 
+ * the ID to match reservation
+ * @param {string} status 
+ * the desired status
+ * @signal 
+ * optional AbortController.signal
+ * @returns {Promise<{status}>}}
+ */
+export async function updateReservationStatus(reservationId, status, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservationId}/status`
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { status }}),
+    signal,
+  }
+  return await fetchJson(url, options);
+}
+
+/**
+ * Retrieves all existing reservations that have 
+ * the given mobile number 
+ * @param {string} mobileNumber 
+ * the number to match reservations
+ * @signal 
+ * optional AbortController.signal
+ * @returns {Promise<{reservation}>}
+ */
 export async function searchMobileNumber(mobileNumber, signal) {
   const url = new URL(`${API_BASE_URL}/reservations?mobile_number=${mobileNumber}`);
   return await fetchJson(url, { headers, signal }, []);
+}
+
+/**
+ * Retrieves exhisting reservation with the given ID
+ * @param reservationId 
+ * the ID to match
+ * @signal 
+ * optional AbortController.signal 
+ * @returns {Promise<{reservation}>}
+ */
+export async function readReservation(reservationId, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservationId}`);
+  return await fetchJson(url, { headers, signal }, []);
+}
+
+/**
+ * Updates the reservation 
+ * @param {string} reservationId 
+ * the reservation to save
+ * @signal 
+ * optional AbortController.signal
+ * @returns {Promise<{reservation}>}}
+ */
+export async function updateReservation(reservation, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation.reservation_id}`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data:  reservation  }),
+    signal,
+  };
+  return await fetchJson(url, options, {});
 }
 
 
@@ -142,7 +204,16 @@ export async function createTable(table, signal) {
   return await fetchJson(url, options);
 }
 
-//
+/**
+ * Updates the table's reservation_id property
+ * @param tableId 
+ * the ID to match
+ * @param reservationId 
+ * the property to update
+ * @signal
+ * optional AbortController.signal 
+ * @returns {Promise<{reservationId}>}
+ */
 export async function updateTable(tableId, reservationId, signal) {
   const url = `${API_BASE_URL}/tables/${tableId}/seat`;
   const options = {
@@ -158,7 +229,14 @@ export async function updateTable(tableId, reservationId, signal) {
   return await fetchJson(url, options);
 }
 
-//
+/**
+ * Changes the table's reservation_id property to 'null'
+ * @param tableId 
+ * the ID to match
+ * @signal
+ * optional AbortController.signal 
+ * @returns {Promise<{}>}
+ */
 export async function finishTable(tableId, signal) {
   const url = `${API_BASE_URL}/tables/${tableId}/seat`;
   const options = {

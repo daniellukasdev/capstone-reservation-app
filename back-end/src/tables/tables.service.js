@@ -1,11 +1,6 @@
 const knex = require("../db/connection");
 
 /**
- * #################  Table Builder for Specific Routes  #################
- */
-
-
-/**
  * #################  Table Builder for Standard Routes  #################
  */
 

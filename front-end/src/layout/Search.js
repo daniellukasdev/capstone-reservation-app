@@ -4,15 +4,21 @@ import ErrorAlert from "./ErrorAlert";
 import { searchMobileNumber } from "../utils/api";
 
 export default function Search() {
+  // creates states
   const [mobileNumber, setMobileNumber] = useState("");
   const [reservations, setReservations] = useState([]);
   const [searchError, setSearchError] = useState(null);
   const [searched, setSearched] = useState(false);
 
+  // assigns input value to mobileNumber state
   function handleInputChange({ target }) {
     setMobileNumber(target.value);
   }
 
+  /** 
+   * Sends request to api with the given mobile number from input
+   * sets reservations state with matching reservations
+  */
   async function handleSearch(event) {
     event.preventDefault();
     const abortController = new AbortController();
@@ -31,17 +37,22 @@ export default function Search() {
     return () => abortController.abort();
   }
 
+  /**
+   * displays list of reservations if match is found,
+   * otherwise displays no match found message
+   */
   return (
-    <div>
-      <div>
+    <div className="col">
+      <div className="d-flex justify-content-center">
         <h1>Search Reservations</h1>
       </div>
       <div>
-        <div className="col">
+        <div>
           <div>
             <ErrorAlert error={searchError} />
           </div>
-          <div className="form-group col">
+          <div className="d-flex justify-content-center">
+            <div>
             <label htmlFor="mobile_number">Mobile Number:</label>
             <div className="input-group">
               <input
@@ -64,6 +75,7 @@ export default function Search() {
                   Find
                 </button>
               </div>
+            </div>
             </div>
           </div>
           <div>

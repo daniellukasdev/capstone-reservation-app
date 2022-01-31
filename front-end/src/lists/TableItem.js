@@ -2,6 +2,10 @@ import React from "react";
 import { listTables, finishTable, listReservations } from "../utils/api";
 
 export default function TableItem({ table, setTables, setReservations, date }) {
+  /**
+   * Displays a confirmation pop up with message
+   * option to abort. Makes a DELETE request to the api
+   */
   async function handleDelete(tableId) {
     const abortController = new AbortController();
     const confirmation = window.confirm(
@@ -32,8 +36,10 @@ export default function TableItem({ table, setTables, setReservations, date }) {
     return () => abortController.abort();
   }
 
+  // destructures table properties
   const { table_id, table_name, capacity, reservation_id } = table;
 
+  // Displays all table information in a table row
   return (
     <>
       <td>{table_id}</td>
