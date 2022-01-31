@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import SeatForm from "../forms/SeatForm";
 import { listTables, updateTable } from "../utils/api";
-import CancelBtn from "../buttons/CancelBtn";
-import SubmitBtn from "../buttons/SubmitBtn";
+
 import ErrorList from "./ErrorList";
 
 export default function SeatReservation() {
@@ -53,41 +53,26 @@ export default function SeatReservation() {
   ));
 
   return (
-    <div>
-      <div>
-        <h1>Seat Reservation</h1>
-        <h3>{`Please seat reservation with ID ${reservationId}`}</h3>
-        <ErrorList error={tablesError} />
+    <div className="col">
+      <div className="col">
+        <div className="d-flex justify-content-center">
+          <h1>Seat Reservation</h1>
+        </div>
+        <div className="d-flex justify-content-center">
+          <h3>{`Please seat reservation with ID ${reservationId}`}</h3>
+        </div>
+        <div className="d-flex justify-content-center">
+          <ErrorList error={tablesError} />
+        </div>
       </div>
-      <form onSubmit={handleSubmit}>
-        <fieldset>
-          <div className="row">
-            <div className="form-group col">
-              <label htmlFor="table_id">Seat at:</label>
-              <select
-                id="table_id"
-                name="table_id"
-                onChange={handleChange}
-                value={selectedTable}
-                className="form-control"
-              >
-                <option>-- Select a Table --</option>
-                {selectOptions}
-              </select>
-            </div>
-          </div>
-          <div className="col">
-            <div className="row">
-              <div className="mr-1">
-                <CancelBtn />
-              </div>
-              <div className="ml-1">
-                <SubmitBtn />
-              </div>
-            </div>
-          </div>
-        </fieldset>
-      </form>
+      <div>
+        <SeatForm
+          selectedTable={selectedTable}
+          selectOptions={selectOptions}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+        />
+      </div>
     </div>
   );
 }
