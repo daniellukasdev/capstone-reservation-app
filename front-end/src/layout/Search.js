@@ -33,7 +33,7 @@ export default function Search() {
 
   return (
     <div>
-      <div>
+      <div className=" d-flex justify-content-center">
         <h1>Search Reservations</h1>
       </div>
       <div>
@@ -41,7 +41,7 @@ export default function Search() {
           <div>
             <ErrorAlert error={searchError} />
           </div>
-          <div className="form-group col">
+          <div>
             <label htmlFor="mobile_number">Mobile Number:</label>
             <div className="input-group">
               <input
