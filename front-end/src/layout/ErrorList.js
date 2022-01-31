@@ -13,7 +13,7 @@ export default function ErrorList({ error }) {
     const errorMessages = error?.message.split(".");
     const errorItems = errorMessages?.map((errMsg, index) => (
     errMsg && (
-        <li key={index}>
+        <li key={Number(errMsg.charCodeAt(index) + errMsg.length)}>
         <ErrorAlert error={errMsg} />
     </li>
     )
