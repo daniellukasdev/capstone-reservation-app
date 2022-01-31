@@ -29,6 +29,7 @@ function checkForExceededCapacity(capacity, people) {
   }
 }
 
+// checks if the status is seated
 function checkIfSeated(status) {
   if (status === "seated") return true;
 }
@@ -75,30 +76,7 @@ async function reservationExists(req, res, next) {
   
 }
 
-// function hasOnlyValidProperties(data) {
-//   const VALID_PROPERTIES = [
-//     "table_name",
-//     "capacity",
-//     "reservation_id"
-// ];
-//     // const { data = {} } = req.body;
-//     // iterate through the keys in the req body
-//     // stores any invalid field into an array
-//     const invalidFields = Object.keys(data).filter(
-//       (field) => !VALID_PROPERTIES.includes(field)
-//     );
-//     // if there are any invalid fields, error gets
-//     // passed into next()
-//     if (invalidFields.length) {
-//       return `Invalid field(s): ${invalidFields.join(", ")}`;
-//       // return next({
-//       //   status: 400,
-//       //   message: `Invalid field(s): ${invalidFields.join(", ")}`,
-//       // });
-//     }
-//     // next();
-//   }\
-
+// checks for data and returns error if null
 function validateData(req, res, next) {
   const data = req.body.data;
   if (!data) {
