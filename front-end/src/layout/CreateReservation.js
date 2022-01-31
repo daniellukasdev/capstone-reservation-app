@@ -18,22 +18,22 @@ export default function CreateReservation() {
   /**
    * state management of form input fields and error
    */
-  const [formData, setFormData] = useState({ ...initialFormState });
-  const [reservationError, setReservationError] = useState(null);
+   const [reservation, setReservation] = useState({ ...initialFormState });
+   const [reservationError, setReservationError] = useState(null);
 
   const history = useHistory();
 
 
-  // sends POST request to api with formData
+  // sends POST request to api with reservation
   async function handleSubmit(event) {
     event.preventDefault();
     const abortController = new AbortController();
     try {
-      await createReservation(formData, abortController.signal);
-      setFormData({ ...initialFormState });
-      history.push(`/dashboard?date=${formData.reservation_date}`);
-    } catch (err) {
-      setReservationError(err);
+      await createReservation(reservation, abortController.signal);
+      setReservation({ ...initialFormState });
+      history.push(`/dashboard?date=${reservation.reservation_date}`);
+    } catch (error) {
+      setReservationError(error);
     }
 
     return () => abortController.abort();
@@ -46,8 +46,8 @@ export default function CreateReservation() {
       </div>
       <ReservationForm
         handleSubmit={handleSubmit}
-        formData={formData}
-        setFormData={setFormData}
+        reservation={reservation}
+        setReservation={setReservation}
       />
     </div>
   );
