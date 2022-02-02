@@ -11,8 +11,8 @@ export default function TableList({
    * iterates through the tables to create a 
    * TableItem component for each one
   */
-  const tableItems = tables.map((table, index) => (
-    <tr key={index}>
+  const tableItems = tables.map((table) => (
+    <tr key={table.table_id}>
       <TableItem
       table={table}
       setTables={setTables}

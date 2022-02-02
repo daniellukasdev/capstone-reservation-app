@@ -11,6 +11,12 @@ import ErrorAlert from "./ErrorAlert";
  **/
 export default function ErrorList({ error }) {
     const errorMessages = error?.message.split(".");
+
+    /**
+     * key is generated using index, but gets char at [index] of 
+     * the error message, then adds the message length to help 
+     * ensure uniqueness
+     */
     const errorItems = errorMessages?.map((errMsg, index) => (
     errMsg && (
         <li key={Number(errMsg.charCodeAt(index) + errMsg.length)}>

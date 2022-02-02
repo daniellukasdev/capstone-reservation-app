@@ -25,8 +25,8 @@ export default function ReservationList({
    * iterates through the reservations to create a 
    * ReservationItem component for each one
   */
-  const tableItems = reservations.map((reservation, index) => (
-    <tr key={index}>
+  const tableItems = reservations.map((reservation) => (
+    <tr key={reservation.reservation_id}>
       <ReservationItem
         reservation={reservation}
         refresh={refreshReservations}
