@@ -24,7 +24,7 @@ The development process showcases the following practices:
     - React
         - APIs with hooks
         - Router
-        - Management
+        - State Management
     - Node
 - JavaScript
 - HTML
