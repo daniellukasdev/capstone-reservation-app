@@ -1,11 +1,11 @@
 {
-  "name": "starter-restaurant-reservation-front-end",
+  "name": "capstone-reservation-app-frontend",
   "version": "1.0.0",
-  "description": "Starter code for restaurant reservation frontend",
+  "description": "capstone-reservation-app frontend",
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Thinkful-Ed/starter-restaurant-reservation",
+    "url": "https://github.com/daniellukasdev/capstone-reservation-app",
     "directory": "/front-end"
   },
   "private": true,
